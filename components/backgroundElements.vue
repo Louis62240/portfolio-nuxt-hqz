@@ -147,7 +147,7 @@
       background: rgb(10,20,0);
     }
     30% { /* Changé à 30% pour une transition encore plus rapide */
-      background: yellow;
+      /* background: yellow; */
     }
   }
   
