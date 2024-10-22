@@ -33,6 +33,14 @@
 <script setup>
 import { gsap } from "gsap";
 import { onMounted, ref } from "vue";
+import {
+  MenuIcon,
+  XIcon,
+  HomeIcon,
+  UserIcon,
+  BriefcaseIcon,
+  MailIcon
+} from '@heroicons/vue/outline';
 
 const header = ref(null);
 onMounted(() => {
