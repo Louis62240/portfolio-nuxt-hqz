@@ -1,6 +1,7 @@
 <template>
   <div>
     <section ref="home" class="flex flex-col items-center min-h-screen bg-[#FEFAE0]">
+      <BackgroundElements />
       <IntroBanner />
     </section>
     <section ref="skills">
