@@ -1,8 +1,8 @@
 <template>
     <div>
         <div>
-            <Header :@scroll-to="handleScrollToSection" />
-            <Accueil :section-to-scroll="sectionToScroll" />
+            <Header @goTo="handleGoTo" />
+            <Accueil :sectionToScroll="sectionToScroll" />
         </div>
     </div>
 </template>
@@ -14,8 +14,8 @@ import Accueil from '@/components/accueil/accueil.vue';
 
 const sectionToScroll = ref(null);
 
-const handleScrollToSection = (sectionRef) => {
-    console.log(sectionRef);
-    sectionToScroll.value = sectionRef;
+const handleGoTo = (section) => {
+    sectionToScroll.value = section;
 };
+
 </script>

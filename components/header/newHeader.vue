@@ -9,24 +9,24 @@
         />
       </div>
       <!-- Menu à droite avec positionnement horizontal -->
-      <div>
+      <!-- <div>
         <nav>
         <ul class="flex space-x-8">
           <li>
-            <a href="#" class="menu-item">Accueil</a>
+            <a href="#" class="menu-item" @click="goTo('home')">Accueil</a>
           </li>
           <li>
-            <a href="#" class="menu-item">Compétences</a>
+            <a href="#" class="menu-item" @click="goTo('skill')">Compétences</a>
           </li>
           <li>
-            <a href="#" class="menu-item">Projets</a>
+            <a href="#" class="menu-item" @click="goTo('project')">Projets</a>
           </li>
           <li>
-            <a href="#" class="menu-item">Contact</a>
+            <a href="#" class="menu-item" @click="goTo('contact')">Contact</a>
           </li>
         </ul>
       </nav>
-      </div>
+      </div> -->
     </header>
   </template>
   
@@ -97,7 +97,12 @@ onMounted(() => {
     delay: 4,
   });
 });
-
+const emit = defineEmits(['goTo']);
+function goTo(section) {
+  console.log("Go to", section);
+  //emit une valeur pour le parent
+  emit("goTo", section);
+}
 </script>
 <style scoped>
 /* Animation keyframes */
@@ -123,6 +128,7 @@ header {
   right: 0;
   padding: 1rem 2rem;
   z-index: 1000;
+  backdrop-filter: blur(10px);
 }
 
 nav ul {

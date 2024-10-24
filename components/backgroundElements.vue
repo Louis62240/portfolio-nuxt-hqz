@@ -47,7 +47,7 @@
             p.resizeCanvas(w, h);
             
             fArray = [];
-            const numFocalPoints = 300; // Réduit encore plus pour plus de vitesse
+            const numFocalPoints = 150; // Réduit encore plus pour plus de vitesse
             const spacingX = w / (numFocalPoints + 1);
             const spacingY = h / (numFocalPoints + 1);
   
@@ -71,12 +71,12 @@
           p.draw = function() {
             if (hatchToggle) {
               // Augmenté à 5 itérations par frame
-              for(let k = 0; k < 5; k++) {
+              for(let k = 0; k < 10; k++) {
                 for (let j = 0; j < fArray.length; j++) {
                   circleHatch(fArray[j].x, fArray[j].y);
                 }
-                if (hatchSize > 5) {
-                  hatchSize -= 2.5; // Réduction plus rapide
+                if (hatchSize > 10) {
+                  hatchSize -= 5; // Réduction plus rapide
                 }
               }
             }
@@ -102,7 +102,7 @@
             } else {
               p.arc(cx, cy, r * 2, r * 2, theta - d, theta + d);
             }
-            chatchSize += 0.25; // Augmenté pour une évolution plus rapide
+            chatchSize += 0.50; // Augmenté pour une évolution plus rapide
           }
   
           p.keyPressed = function() {
@@ -138,7 +138,7 @@
     justify-content: center;
     background: rgb(250, 250, 250);
     opacity: 1;
-    animation: appear 2s; /* Réduit à 2 secondes */
+    animation: appear 0.2s; /* Réduit à 2 secondes */
   }
   
   @keyframes appear {
@@ -146,7 +146,7 @@
       opacity: .5;
       background: rgb(10,20,0);
     }
-    30% { /* Changé à 30% pour une transition encore plus rapide */
+    15% { /* Changé à 30% pour une transition encore plus rapide */
       /* background: yellow; */
     }
   }

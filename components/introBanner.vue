@@ -1,186 +1,128 @@
 <template>
-  <section
-    class="relative flex flex-col items-center justify-center w-full min-h-screen bg-gradient-to-br from-[#F2EED7] to-[#FEFAE0] overflow-hidden px-4 sm:px-6 lg:px-8"
-    ref="intro"
-  >
-    <!-- Animated background elements -->
-    <div class="absolute inset-0 overflow-hidden">
-      <div v-for="i in 10" :key="i" 
-           class="absolute rounded-full opacity-10 animate-float"
+  <section class="relative min-h-screen w-full bg-[#626F47] overflow-hidden py-8 sm:py-12 md:py-16 px-4 sm:px-6 lg:px-8">
+    <!-- Animated Background Elements -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+      <div v-for="n in 20" :key="n" 
+           class="absolute animate-floating opacity-20"
            :style="{
-             width: `${Math.random() * 300 + 50}px`,
-             height: `${Math.random() * 300 + 50}px`,
              left: `${Math.random() * 100}%`,
              top: `${Math.random() * 100}%`,
-             animationDuration: `${Math.random() * 10 + 5}s`,
              animationDelay: `${Math.random() * 5}s`,
-             backgroundColor: ['#798645', '#626F47', '#FFBF47'][Math.floor(Math.random() * 3)]
-           }"
-      ></div>
+             transform: `rotate(${Math.random() * 360}deg)`
+           }">
+        <svg width="40" height="40" viewBox="0 0 40 40" class="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10">
+          <path d="M20 4C12 4 4 12 4 20C4 28 12 36 20 36C28 36 36 28 36 20C36 12 28 4 20 4Z" 
+                fill="#EBA603" 
+                class="animate-pulse"/>
+        </svg>
+      </div>
     </div>
 
-    <!-- Main content -->
-    <div class="relative z-10 w-full max-w-6xl mx-auto text-center">
-      <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-[#626F47] mb-6 opacity-0 transform translate-y-8 transition-all duration-1000 ease-out"
-          :class="{ 'opacity-100 translate-y-0': isVisible }">
-        Bonjour, je suis <br class="sm:hidden">
-        <span class="text-[#798645] relative inline-block mt-2 sm:mt-0">
-          {{ fullName }}
-          <svg class="absolute left-0 w-full" viewBox="0 0 200 8" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0 4C50 4 50 1 100 1C150 1 150 7 200 7" stroke="#FFBF47" stroke-width="2" fill="none" stroke-linecap="round"/>
-          </svg>
-        </span>
-      </h1>
-      
-      <p class="text-lg sm:text-xl md:text-2xl text-[#626F47] mb-10 max-w-3xl mx-auto opacity-0 transform translate-y-8 transition-all duration-1000 delay-300 ease-out"
-         :class="{ 'opacity-100 translate-y-0': isVisible }">
-        {{ description }}
-      </p>
-      
-      <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4 opacity-0 transform translate-y-8 transition-all duration-1000 delay-600 ease-out"
-           :class="{ 'opacity-100 translate-y-0': isVisible }">
-        <button
-          @click="scrollToProjects"
-          class="bg-[#798645] text-[#FEFAE0] px-8 py-4 rounded-full shadow-lg hover:bg-[#626F47] transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#FFBF47] focus:ring-opacity-50"
-        >
-          Découvrez mes projets
-        </button>
-        <button
-          @click="openContactModal"
-          class="border-2 border-[#798645] text-[#798645] px-8 py-4 rounded-full shadow-lg hover:bg-[#798645] hover:text-[#FEFAE0] transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#FFBF47] focus:ring-opacity-50"
-        >
-          Contactez-moi
-        </button>
-      </div>
+    <!-- Main Content -->
+    <div class="relative z-10 max-w-7xl mx-auto">
+      <!-- Experience Timeline -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12">
+        <!-- Left Column: Experience -->
+        <div class="space-y-6 sm:space-y-8">
+          <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-[#FEFAE0] mb-6 sm:mb-8">
+            Mon Parcours
+            <div class="h-1 w-16 sm:w-24 bg-[#EBA603] mt-2 rounded-full"></div>
+          </h2>
+          
+          <div class="space-y-6 sm:space-y-8">
+            <div v-for="(exp, index) in experience" 
+                 :key="index"
+                 class="relative pl-6 sm:pl-8 pb-6 sm:pb-8 group cursor-pointer"
+                 :class="{'opacity-0 translate-y-8': !isVisible}"
+                 :style="{
+                   transition: `all 0.8s ease-out ${index * 0.2}s`,
+                   opacity: isVisible ? 1 : 0,
+                   transform: isVisible ? 'translateY(0)' : 'translateY(2rem)'
+                 }">
+              <div class="absolute left-0 top-0 h-full w-0.5 bg-[#EBA603] group-hover:scale-y-110 transition-transform duration-300"></div>
+              <div class="absolute left-0 top-0 w-3 sm:w-4 h-3 sm:h-4 rounded-full bg-[#EBA603] -translate-x-[5px] sm:-translate-x-1.5 group-hover:scale-125 transition-transform duration-300"></div>
+              <div class="space-y-2">
+                <h3 class="text-lg sm:text-xl font-semibold text-[#FEFAE0]">{{ exp.title }}</h3>
+                <p class="text-sm sm:text-base text-[#FEFAE0] opacity-80">{{ exp.period }}</p>
+                <p class="text-sm sm:text-base text-[#FEFAE0] mt-2">{{ exp.description }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
 
-      <!-- Skills carousel with logos -->
-    <div class="mt-16 overflow-hidden w-full" v-if="isVisible">
-      <div class="flex animate-carousel">
-        <div v-for="skill in skills" :key="skill.name" 
-             class="flex items-center flex-shrink-0 px-4 py-2 m-2 bg-[#FEFAE0] rounded-full text-[#626F47] font-medium"
-             :title="skill.level">
-          <img :src="skill.logo" :alt="skill.name" class="w-6 h-6 mr-2" />
-          {{ skill.name }}
+        <!-- Right Column: Skills & Stats -->
+        <div class="space-y-6 sm:space-y-8 mt-8 lg:mt-0">
+          <!-- Skills Section -->
+          <div class="bg-[#FEFAE0]/10 rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 backdrop-blur-sm transform hover:scale-105 transition-transform duration-300">
+            <h3 class="text-xl sm:text-2xl font-bold text-[#FEFAE0] mb-4 sm:mb-6">Expertise Technique</h3>
+            <div class="space-y-3 sm:space-y-4">
+              <div v-for="skill in technicalSkills" 
+                   :key="skill.name"
+                   class="relative">
+                <div class="flex justify-between mb-1 text-sm sm:text-base">
+                  <span class="text-[#FEFAE0]">{{ skill.name }}</span>
+                  <span class="text-[#EBA603]">{{ skill.level }}%</span>
+                </div>
+                <div class="h-1.5 sm:h-2 bg-[#FEFAE0]/20 rounded-full overflow-hidden">
+                  <div class="h-full bg-[#EBA603] rounded-full transition-all duration-1000"
+                       :style="{ width: isVisible ? `${skill.level}%` : '0%' }"></div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-    </div>
 
-    <!-- Social media links -->
-    <div class="absolute bottom-10 right-10 flex space-x-4">
-      <a v-for="social in socialLinks" :key="social.name" :href="social.url" target="_blank" rel="noopener noreferrer"
-         class="text-[#626F47] hover:text-[#FFBF47] transition duration-300">
-        <component :is="social.icon" class="w-6 h-6" />
-      </a>
-    </div>
-
-    <!-- Contact Modal -->
-    <div v-if="showContactModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div class="bg-white p-8 rounded-lg shadow-xl max-w-md w-full">
-        <h2 class="text-2xl font-bold mb-4 text-[#626F47]">Contactez-moi</h2>
-        <form @submit.prevent="submitContact">
-          <input type="email" v-model="contactEmail" placeholder="Votre email" class="w-full p-2 mb-4 border rounded" required>
-          <textarea v-model="contactMessage" placeholder="Votre message" class="w-full p-2 mb-4 border rounded" rows="4" required></textarea>
-          <div class="flex justify-end">
-            <button type="button" @click="closeContactModal" class="mr-2 px-4 py-2 text-[#626F47] hover:text-[#798645]">Annuler</button>
-            <button type="submit" class="px-4 py-2 bg-[#798645] text-white rounded hover:bg-[#626F47]">Envoyer</button>
-          </div>
-        </form>
+      <!-- Mobile CTA -->
+      <div class="mt-8 sm:mt-12 text-center lg:hidden">
+        <button class="inline-flex items-center justify-center px-6 py-3 border border-[#EBA603] text-[#FEFAE0] rounded-full hover:bg-[#EBA603] transition-colors duration-300 text-sm sm:text-base">
+          Télécharger mon CV
+          <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+          </svg>
+        </button>
       </div>
     </div>
   </section>
 </template>
+
 <script setup>
-import { onMounted, ref, computed } from 'vue';
-import gsap from 'gsap';
-import Parse from 'parse/dist/parse.min.js';
-import { GithubIcon, LinkedinIcon, TwitterIcon } from 'lucide-vue-next'
+import { ref, onMounted } from 'vue'
 
-// Références réactives
-const intro = ref(null);
-const profiles = ref([]);
-const lastName = ref('');
-const firstName = ref('');
-const description = ref('');
-const isVisible = ref(false);
-const showContactModal = ref(false)
-const contactEmail = ref('')
-const contactMessage = ref('')
-const skills = [
-  { name: 'Vue.js', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg', level: 'Expérimenté' },
-  { name: 'React', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg', level: 'Expérimenté' },
-  { name:'Nuxt', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nuxtjs/nuxtjs-original.svg', level: 'Expérimenté' },
-  { name:'TypeScript', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg', level: 'Intermédiaire' },
-  { name: 'Tailwind CSS', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg', level: 'Expérimenté' },
-  { name: 'Node.js', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg', level: 'Expérimenté' },
-  { name: 'JavaScript', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg', level: 'Expérimenté' },
-  { name: 'Python', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg', level: 'Intermédiaire' },
-  { name: 'Pandas', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original.svg', level: 'Intermédiaire' },
-  { name: 'NumPy', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/numpy/numpy-original.svg', level: 'Intermédiaire' },
-  { name: 'Scikit-learn', logo: 'https://upload.wikimedia.org/wikipedia/commons/0/05/Scikit_learn_logo_small.svg', level: 'Intermédiaire' },
-  { name: 'C#', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg', level: 'Notions' },
-  { name: 'Swift', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/swift/swift-original.svg', level: 'Notions' },
-  { name: 'PHP', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg', level: 'Intermédiaire' },
-  { name: 'FastAPI', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg', level: 'Intermédiaire' },
-]
+const isVisible = ref(false)
 
-// Computed property pour le nom complet
-const fullName = computed(() => `${firstName.value} ${lastName.value}`.trim());
-const socialLinks = [
-  { name: 'GitHub', url: 'https://github.com', icon: GithubIcon },
-  { name: 'LinkedIn', url: 'https://linkedin.com', icon: LinkedinIcon },
-  { name: 'Twitter', url: 'https://twitter.com', icon: TwitterIcon },
-]
-// Fonction pour récupérer les données depuis Parse
-const fetchUserData = async () => {
-  try {
-    const UserQuery = Parse.Object.extend('InformationsPerso');
-    const query = new Parse.Query(UserQuery);
-    const results = await query.find();
-
-    if (results.length > 0) {
-      const user = results[0];
-      lastName.value = user.get('lastName') || '';
-      firstName.value = user.get('firstName') || '';
-      description.value = user.get('description') || '';
-    }
-  } catch (error) {
-    console.error('Erreur lors de la récupération des données :', error);
+const experience = ref([
+  {
+    title: 'Master in Artificial Intelligence Expertise',
+    period: '2023 - 2025',
+    description: 'Advanced training in Artificial Intelligence, specializing in user clustering using K-means and other machine learning algorithms. Focus on project management, development of innovative AI-driven solutions, and conducting research in deep learning techniques.'
+  },
+  {
+    title: 'Bachelor in Application Development and Design',
+    period: '2022 - 2023',
+    description: 'Comprehensive experience in dynamic application development, including web and mobile solutions. Learned project management principles and implemented full-stack development practices for creating robust, scalable applications.'
+  },
+  {
+    title: 'BTS in IT Services for Organizations',
+    period: '2020 - 2022',
+    description: 'Acquired foundational skills in web development, system administration, and network management. Provided technical support and gained practical experience in IT infrastructure and troubleshooting.'
   }
-};
+])
 
-// Fonction pour l'animation GSAP
-const animateIntro = () => {
-  gsap.fromTo(
-    intro.value.children,
-    { opacity: 0, y: 20 },
-    { opacity: 1, y: 0, duration: 1, stagger: 0.2, ease: 'power3.out' }
-  );
-};
-const scrollToProjects = () => {
-  // Implement smooth scrolling to projects section
-  console.log('Scrolling to projects')
-}
+const technicalSkills = ref([
+  { name: 'Vue.js / Nuxt.js (Frontend)', level: 90 },
+  { name: 'Node.js', level: 85 },
+  { name: 'Responsive Design', level: 85 },
+  { name: 'Frontend Architecture (Components, State Management)', level: 85 },
+  { name: 'Web Performance Optimization', level: 80 },
+  { name: 'Database Management (SQL & NoSQL)', level: 75 },
+  { name: 'React', level: 75 },
+  { name: 'Responsive Design', level: 85 },
+  { name: 'UI/UX Design', level: 75 }
+])
 
-const openContactModal = () => {
-  showContactModal.value = true
-}
 
-const closeContactModal = () => {
-  showContactModal.value = false
-  contactEmail.value = ''
-  contactMessage.value = ''
-}
-
-const submitContact = () => {
-  // Implement contact form submission logic here
-  console.log('Submitting contact form', { email: contactEmail.value, message: contactMessage.value })
-  closeContactModal()
-}
-// Récupération des données et animation lors du montage
-onMounted(async () => {
-  await fetchUserData();
-  animateIntro();
+onMounted(() => {
   const observer = new IntersectionObserver(
     ([entry]) => {
       if (entry.isIntersecting) {
@@ -191,27 +133,46 @@ onMounted(async () => {
     { threshold: 0.1 }
   )
 
-  if (intro.value) {
-    observer.observe(intro.value)
+  const section = document.querySelector('section')
+  if (section) {
+    observer.observe(section)
   }
-});
+})
 </script>
+
 <style scoped>
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-20px); }
+@keyframes floating {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(10px, 10px) rotate(5deg); }
+  50% { transform: translate(0, 20px) rotate(0deg); }
+  75% { transform: translate(-10px, 10px) rotate(-5deg); }
 }
 
-.animate-float {
-  animation: float linear infinite;
+.animate-floating {
+  animation: floating 8s ease-in-out infinite;
 }
 
-@keyframes carousel {
-  0% { transform: translateX(100%); }
-  100% { transform: translateX(-100%); }
+.animate-pulse {
+  animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-.animate-carousel {
-  animation: carousel 20s linear infinite;
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Responsive adjustments for very small screens */
+@media (max-width: 360px) {
+  .text-2xl {
+    font-size: 1.25rem;
+  }
+  
+  .text-xl {
+    font-size: 1.125rem;
+  }
+  
+  .p-4 {
+    padding: 0.75rem;
+  }
 }
 </style>
