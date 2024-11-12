@@ -4,7 +4,7 @@
       <BackgroundElements />
       <IntroBanner />
       <ProjectsSection />
-      <CvBanner />
+      <!-- <CvBanner /> -->
       
     </section>
     <!-- <section ref="skill">

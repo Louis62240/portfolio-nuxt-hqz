@@ -3,20 +3,13 @@
     <div class="bg-image-wrapper">
       <img src="@/assets/images/sunflowers.jpeg" alt="Sunflowers" class="bg-image" />
     </div>
-    <!-- <div class="cv-viewer-wrapper">
-      <cvViewer />
-    </div> -->
   </div>
 </template>
 
 <script>
-import cvViewer from '@/components/accueil/cvViewer'
 
 export default {
   name: 'SunflowerImage',
-  components: {
-    cvViewer,
-  },
   mounted() {
     this.updateCanvasSize()
     this.setupResizeObserver()
