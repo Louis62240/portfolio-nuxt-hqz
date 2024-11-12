@@ -5,27 +5,26 @@
         @mouseenter="flipped = true" 
         @mouseleave="flipped = false"
         @click="downloadCV"
+        @touchstart="handleTouchStart"
       >
         <div class="flip-card-inner" :class="{ flipped }">
           <div class="flip-card-front">
             <div class="pdf-preview">
               <iframe
                 :src="pdfUrl"
-                width="100%"
-                height="100%"
-                frameborder="0"
                 class="pdf-iframe"
+                loading="lazy"
               ></iframe>
               <div class="preview-overlay">
-                <Icon name="mdi:file-document-outline" size="32" />
-                <span>Prévisualisation du CV</span>
+                <Icon name="mdi:file-document-outline" class="preview-icon" />
+                <span class="preview-text">Prévisualisation du CV</span>
               </div>
             </div>
           </div>
   
           <div class="flip-card-back">
             <div class="content">
-              <Icon name="mdi:download-circle" size="48" class="download-icon" />
+              <Icon name="mdi:download-circle" class="download-icon" />
               <h3>Télécharger mon CV</h3>
               <p>Format PDF - Cliquez pour télécharger</p>
               <div class="tags">
@@ -47,34 +46,38 @@
   const flipped = ref(false)
   
   onMounted(() => {
-    // Ajoutez #toolbar=0&navpanes=0&scrollbar=0 à l'URL pour masquer les contrôles
     pdfUrl.value = '/pdf/cv.pdf#toolbar=0&navpanes=0&scrollbar=0'
   })
   
   const downloadCV = () => {
     if (flipped.value) {
       const link = document.createElement('a')
-      // Utilisez l'URL de base sans les paramètres pour le téléchargement
       link.href = '/pdf/cv.pdf'
       link.download = 'mon-cv.pdf'
       link.click()
     }
   }
+  
+  const handleTouchStart = () => {
+    flipped.value = !flipped.value
+  }
   </script>
   
   <style scoped>
   .card-container {
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    width: 100%;
+    min-height: 100dvh;
+    padding: max(16px, min(5vw, 32px));
+    display: grid;
+    place-items: center;
   }
   
   .flip-card {
-    perspective: 1500px;
-    width: 440px;
-    height: 570px;
+    perspective: 2000px;
+    width: clamp(280px, 90vw, 440px);
+    height: clamp(400px, 80vh, 570px);
     cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
   }
   
   .flip-card-inner {
@@ -82,10 +85,12 @@
     width: 100%;
     height: 100%;
     text-align: center;
-    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     transform-style: preserve-3d;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-    border-radius: 20px;
+    box-shadow: 
+      0 10px 30px -5px rgba(0, 0, 0, 0.1),
+      0 2px 8px -3px rgba(0, 0, 0, 0.05);
+    will-change: transform;
   }
   
   .flip-card-inner.flipped {
@@ -98,13 +103,12 @@
     width: 100%;
     height: 100%;
     backface-visibility: hidden;
-    border-radius: 20px;
     overflow: hidden;
   }
   
   .flip-card-front {
     background: #ffffff;
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.08);
   }
   
   .pdf-preview {
@@ -113,19 +117,41 @@
     height: 100%;
   }
   
-  .preview-overlay {
+  .pdf-iframe {
     position: absolute;
-    top: 0;
-    left: 0;
+    inset: 0;
     width: 100%;
     height: 100%;
-    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    pointer-events: none;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  
+  .preview-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     opacity: 0;
     transition: opacity 0.3s ease;
+  }
+  
+  .preview-icon {
+    font-size: clamp(24px, 5vw, 32px);
+    margin-bottom: 1rem;
+    color: #6366f1;
+  }
+  
+  .preview-text {
+    font-size: clamp(14px, 3vw, 16px);
+    font-weight: 500;
+    color: #4b5563;
   }
   
   .flip-card:hover .preview-overlay {
@@ -144,26 +170,28 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 2rem;
+    padding: clamp(1.5rem, 5vw, 2.5rem);
   }
   
   .download-icon {
-    margin-bottom: 1.5rem;
-    animation: pulse 2s infinite;
+    font-size: clamp(32px, 8vw, 48px);
+    margin-bottom: clamp(1rem, 3vw, 1.5rem);
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
   
   h3 {
     margin: 0;
-    font-size: 1.8em;
+    font-size: clamp(1.2em, 4vw, 1.8em);
     font-weight: 600;
     margin-bottom: 0.5rem;
+    letter-spacing: -0.01em;
   }
   
   p {
-    font-size: 1.1em;
-    margin: 0;
+    font-size: clamp(0.9em, 3vw, 1.1em);
+    margin: 0 0 clamp(1rem, 4vw, 2rem) 0;
     opacity: 0.9;
-    margin-bottom: 2rem;
+    line-height: 1.5;
   }
   
   .tags {
@@ -171,85 +199,48 @@
     flex-wrap: wrap;
     gap: 0.5rem;
     justify-content: center;
-    margin-top: 1rem;
+    margin-top: clamp(0.8rem, 2vw, 1.2rem);
   }
   
   .tag {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.15);
     padding: 0.5rem 1rem;
-    border-radius: 20px;
-    font-size: 0.9em;
+    border-radius: 9999px;
+    font-size: clamp(0.8em, 2.5vw, 0.9em);
     backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    transition: transform 0.2s ease, background 0.2s ease;
+  }
+  
+  .tag:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
   }
   
   @keyframes pulse {
-    0% {
-      transform: scale(1);
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+  }
+  
+  /* Support tactile */
+  @media (hover: none) {
+    .preview-overlay {
+      opacity: 0.95;
     }
-    50% {
-      transform: scale(1.1);
-    }
-    100% {
-      transform: scale(1);
+    
+    .flip-card-inner {
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
   }
   
-  @media (max-width: 768px) {
-    .flip-card {
-      width: 300px;
-      height: 420px;
+  /* Optimisations de performance */
+  @media (prefers-reduced-motion: reduce) {
+    .flip-card-inner {
+      transition-duration: 0.1s;
     }
-  
-    h3 {
-      font-size: 1.5em;
-    }
-  
-    p {
-      font-size: 1em;
+    
+    .download-icon {
+      animation: none;
     }
   }
-  .pdf-iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-}
-
-/* Masquer les contrôles PDF avec CSS */
-:deep(.pdf-iframe) {
-  margin: 0;
-  padding: 0;
-}
-
-/* Pour Firefox */
-:deep(.pdf-iframe)::-moz-selection {
-  background: transparent;
-}
-
-/* Pour Chrome/Safari */
-:deep(.pdf-iframe)::selection {
-  background: transparent;
-}
-
-/* Ajoutez ces styles pour masquer la barre de défilement */
-:deep(.pdf-iframe)::-webkit-scrollbar {
-  display: none;
-}
-
-.pdf-preview {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden; /* Empêche le débordement */
-}
-
-/* Pour s'assurer que l'iframe remplit complètement le conteneur */
-.pdf-preview iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border: none;
-  background: white;
-}
   </style>

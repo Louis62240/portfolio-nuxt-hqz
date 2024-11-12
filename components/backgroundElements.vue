@@ -14,23 +14,54 @@ import cvViewer from '@/components/accueil/cvViewer'
 
 export default {
   name: 'SunflowerImage',
-  mounted() {
-    this.updateCanvasSize()
-    window.addEventListener('resize', this.updateCanvasSize)
-  },
-  beforeDestroy() {
-    window.removeEventListener('resize', this.updateCanvasSize)
-  },
   components: {
     cvViewer,
+  },
+  mounted() {
+    this.updateCanvasSize()
+    this.setupResizeObserver()
+    window.addEventListener('resize', this.handleResize)
+    window.addEventListener('orientationchange', this.handleResize)
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.handleResize)
+    window.removeEventListener('orientationchange', this.handleResize)
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect()
+    }
+  },
+  data() {
+    return {
+      resizeObserver: null,
+    }
   },
   methods: {
     updateCanvasSize() {
       const container = this.$refs.canvasContainer
-      this.$el.style.width = `${container.offsetWidth}px`
-      this.$el.style.height = `${container.offsetHeight}px`
+      if (container) {
+        const viewportWidth = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0)
+        const viewportHeight = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0)
+        
+        this.$el.style.width = `${viewportWidth}px`
+        this.$el.style.height = `${viewportHeight}px`
+      }
     },
-  },
+    handleResize() {
+      requestAnimationFrame(this.updateCanvasSize)
+    },
+    setupResizeObserver() {
+      if ('ResizeObserver' in window) {
+        this.resizeObserver = new ResizeObserver(entries => {
+          for (const entry of entries) {
+            if (entry.target === this.$refs.canvasContainer) {
+              this.handleResize()
+            }
+          }
+        })
+        this.resizeObserver.observe(this.$refs.canvasContainer)
+      }
+    }
+  }
 }
 </script>
 
@@ -39,7 +70,9 @@ export default {
   margin: 0;
   padding: 0;
   height: 100vh;
+  height: 100dvh; /* Pour les navigateurs modernes qui supportent dvh */
   width: 100vw;
+  width: 100dvw; /* Pour les navigateurs modernes qui supportent dvw */
   overflow: hidden;
   background: rgb(98, 111, 71);
   position: relative;
@@ -55,7 +88,7 @@ export default {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  filter: blur(5px);
+  filter: blur(clamp(3px, 1vw, 5px));
   z-index: 1;
 }
 
@@ -64,16 +97,72 @@ export default {
   height: 100%;
   object-fit: cover;
   transform: scale(1.1);
+  will-change: transform;
 }
 
 .cv-viewer-wrapper {
   position: relative;
   z-index: 2;
-  transform: translateX(40%); /* Légère décalage à droite */
-  max-width: 60%; /* Ajustez la largeur maximale si nécessaire */
-  padding: 20px;
-  /* background: rgba(255, 255, 255, 0.9); 
-  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
-  border-radius: 8px; */
+  width: min(90%, 800px);
+  padding: clamp(10px, 2vw, 20px);
+  margin: 0 auto;
+}
+
+/* Ajustements pour les différentes tailles d'écran */
+@media (min-width: 768px) {
+  .cv-viewer-wrapper {
+    transform: translateX(clamp(0%, 20%, 40%));
+    max-width: 60%;
+  }
+}
+
+@media (max-width: 767px) {
+  .cv-viewer-wrapper {
+    transform: none;
+    max-width: 95%;
+    padding: clamp(5px, 1.5vw, 15px);
+  }
+}
+
+/* Ajustements pour les appareils en mode paysage */
+@media (orientation: landscape) and (max-height: 600px) {
+  .canvas-container {
+    min-height: 100vh;
+  }
+  
+  .cv-viewer-wrapper {
+    padding: clamp(5px, 1vw, 10px);
+    transform: none;
+    max-width: 85%;
+  }
+}
+
+/* Support des écrans à haute densité de pixels */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .bg-image-wrapper {
+    filter: blur(clamp(2px, 0.5vw, 4px));
+  }
+}
+
+/* Préférence de réduction de mouvement */
+@media (prefers-reduced-motion: reduce) {
+  .bg-image {
+    transform: none;
+  }
+}
+
+/* Support des écrans ultra-larges */
+@media (min-width: 1920px) {
+  .cv-viewer-wrapper {
+    max-width: 50%;
+  }
+}
+
+/* Support des petits écrans */
+@media (max-width: 360px) {
+  .cv-viewer-wrapper {
+    padding: 5px;
+    max-width: 100%;
+  }
 }
 </style>
