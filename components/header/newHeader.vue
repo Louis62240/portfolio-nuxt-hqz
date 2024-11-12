@@ -8,40 +8,12 @@
           class="logo h-24 w-24"
         />
       </div>
-      <!-- Menu à droite avec positionnement horizontal -->
-      <!-- <div>
-        <nav>
-        <ul class="flex space-x-8">
-          <li>
-            <a href="#" class="menu-item" @click="goTo('home')">Accueil</a>
-          </li>
-          <li>
-            <a href="#" class="menu-item" @click="goTo('skill')">Compétences</a>
-          </li>
-          <li>
-            <a href="#" class="menu-item" @click="goTo('project')">Projets</a>
-          </li>
-          <li>
-            <a href="#" class="menu-item" @click="goTo('contact')">Contact</a>
-          </li>
-        </ul>
-      </nav>
-      </div> -->
     </header>
   </template>
   
 <script setup>
 import { gsap } from "gsap";
 import { onMounted, ref } from "vue";
-import {
-  MenuIcon,
-  XIcon,
-  HomeIcon,
-  UserIcon,
-  BriefcaseIcon,
-  MailIcon
-} from '@heroicons/vue/outline';
-
 const header = ref(null);
 onMounted(() => {
   const handleScroll = () => {
