@@ -116,11 +116,6 @@ function goTo(section) {
     transform: translateY(0);
   }
 }
-.header-transparent {
-  /* background-color: rgba(255, 255, 255, 0.8);  */
-  backdrop-filter: blur(10px); /* Flou pour un effet de verre */
-  transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
-}
 header {
   position: fixed;
   top: 0;
