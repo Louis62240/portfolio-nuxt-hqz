@@ -128,7 +128,6 @@ header {
   right: 0;
   padding: 1rem 2rem;
   z-index: 1000;
-  backdrop-filter: blur(10px);
 }
 
 nav ul {
