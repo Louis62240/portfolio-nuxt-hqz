@@ -1,161 +1,91 @@
+<!-- components/HeroSection.vue -->
 <template>
-  <div ref="canvasContainer" class="canvas-container">
-    <div class="bg-image-wrapper">
-      <img src="@/assets/images/sunflowers.jpeg" alt="Sunflowers" class="bg-image" />
+  <section class="w-full min-h-[calc(100vh-80px)] relative flex flex-col items-center justify-center px-6 py-20 overflow-hidden bg-[#0F172A]">
+    <!-- Subtle Background Gradient -->
+    <div class="absolute inset-0 bg-gradient-to-b from-[#0F172A] via-[#131B2E] to-[#0F172A] opacity-50"></div>
+
+    <!-- Main Content -->
+    <div class="relative z-10 max-w-4xl mx-auto text-center">
+      <!-- Introduction -->
+      <h1 class="text-4xl md:text-6xl font-bold text-white mb-6">
+        <span class="block">Bonjour, je suis</span>
+        <span class="block mt-3 bg-gradient-to-r from-[#60A5FA] to-[#34D399] bg-clip-text text-transparent">
+          [Votre Nom]
+        </span>
+      </h1>
+
+      <!-- Role with Typing Effect -->
+      <div class="h-8 mb-8">
+        <p class="text-xl text-gray-300">
+          {{ currentRole }}
+        </p>
+      </div>
+
+      <!-- Brief Description -->
+      <p class="text-lg text-gray-400 mb-12 max-w-2xl mx-auto">
+        Spécialisé dans la création d'applications web modernes et performantes,
+        je transforme vos idées en expériences numériques uniques.
+      </p>
+
+      <!-- CTA Buttons -->
+      <div class="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+        <a href="#projects" class="px-8 py-3 bg-[#3B82F6] text-white rounded-lg transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-blue-500/30">
+          Voir mes projets
+        </a>
+        <a href="#contact" class="px-8 py-3 border border-[#3B82F6] text-[#3B82F6] rounded-lg transition-all hover:-translate-y-0.5 hover:bg-[#3B82F6]/10">
+          Me contacter
+        </a>
+      </div>
+
+      <!-- Scroll Indicator -->
+      <div class="absolute bottom-12 left-1/2 -translate-x-1/2 animate-bounce">
+        <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+        </svg>
+      </div>
     </div>
-  </div>
+  </section>
 </template>
 
-<script>
+<script setup>
+import { ref, onMounted } from 'vue'
 
-export default {
-  name: 'SunflowerImage',
-  mounted() {
-    this.updateCanvasSize()
-    this.setupResizeObserver()
-    window.addEventListener('resize', this.handleResize)
-    window.addEventListener('orientationchange', this.handleResize)
-  },
-  beforeDestroy() {
-    window.removeEventListener('resize', this.handleResize)
-    window.removeEventListener('orientationchange', this.handleResize)
-    if (this.resizeObserver) {
-      this.resizeObserver.disconnect()
-    }
-  },
-  data() {
-    return {
-      resizeObserver: null,
-    }
-  },
-  methods: {
-    updateCanvasSize() {
-      const container = this.$refs.canvasContainer
-      if (container) {
-        const viewportWidth = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0)
-        const viewportHeight = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0)
-        
-        this.$el.style.width = `${viewportWidth}px`
-        this.$el.style.height = `${viewportHeight}px`
-      }
-    },
-    handleResize() {
-      requestAnimationFrame(this.updateCanvasSize)
-    },
-    setupResizeObserver() {
-      if ('ResizeObserver' in window) {
-        this.resizeObserver = new ResizeObserver(entries => {
-          for (const entry of entries) {
-            if (entry.target === this.$refs.canvasContainer) {
-              this.handleResize()
-            }
-          }
-        })
-        this.resizeObserver.observe(this.$refs.canvasContainer)
-      }
-    }
-  }
-}
+const roles = [
+  'Développeur Front-end',
+  'Développeur Back-end',
+  'Développeur Full Stack'
+]
+
+const currentRole = ref(roles[0])
+let currentIndex = 0
+
+onMounted(() => {
+  setInterval(() => {
+    currentIndex = (currentIndex + 1) % roles.length
+    currentRole.value = roles[currentIndex]
+  }, 3000)
+})
 </script>
 
 <style scoped>
-.canvas-container {
-  margin: 0;
-  padding: 0;
-  height: 100vh;
-  height: 100dvh; /* Pour les navigateurs modernes qui supportent dvh */
-  width: 100vw;
-  width: 100dvw; /* Pour les navigateurs modernes qui supportent dvw */
-  overflow: hidden;
-  background: rgb(98, 111, 71);
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+section {
+  /* Assuming header height is 80px */
+  margin-top: 40px;
 }
 
-.bg-image-wrapper {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  filter: blur(clamp(3px, 1vw, 5px));
-  z-index: 1;
-}
-
-.bg-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transform: scale(1.1);
-  will-change: transform;
-}
-
-.cv-viewer-wrapper {
-  position: relative;
-  z-index: 2;
-  width: min(90%, 800px);
-  padding: clamp(10px, 2vw, 20px);
-  margin: 0 auto;
-}
-
-/* Ajustements pour les différentes tailles d'écran */
-@media (min-width: 768px) {
-  .cv-viewer-wrapper {
-    transform: translateX(clamp(0%, 20%, 40%));
-    max-width: 60%;
+/* Simple slide up animation for initial load */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-@media (max-width: 767px) {
-  .cv-viewer-wrapper {
-    transform: none;
-    max-width: 95%;
-    padding: clamp(5px, 1.5vw, 15px);
-  }
-}
-
-/* Ajustements pour les appareils en mode paysage */
-@media (orientation: landscape) and (max-height: 600px) {
-  .canvas-container {
-    min-height: 100vh;
-  }
-  
-  .cv-viewer-wrapper {
-    padding: clamp(5px, 1vw, 10px);
-    transform: none;
-    max-width: 85%;
-  }
-}
-
-/* Support des écrans à haute densité de pixels */
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-  .bg-image-wrapper {
-    filter: blur(clamp(2px, 0.5vw, 4px));
-  }
-}
-
-/* Préférence de réduction de mouvement */
-@media (prefers-reduced-motion: reduce) {
-  .bg-image {
-    transform: none;
-  }
-}
-
-/* Support des écrans ultra-larges */
-@media (min-width: 1920px) {
-  .cv-viewer-wrapper {
-    max-width: 50%;
-  }
-}
-
-/* Support des petits écrans */
-@media (max-width: 360px) {
-  .cv-viewer-wrapper {
-    padding: 5px;
-    max-width: 100%;
-  }
+h1, .description, .cta-buttons {
+  animation: slideUp 0.5s ease-out forwards;
 }
 </style>
