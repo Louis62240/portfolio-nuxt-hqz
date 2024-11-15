@@ -72,16 +72,6 @@
           </div>
         </div>
       </div>
-
-      <!-- Mobile CTA -->
-      <div class="mt-8 sm:mt-12 text-center lg:hidden">
-        <button class="inline-flex items-center justify-center px-6 py-3 border border-[#EBA603] text-[#FEFAE0] rounded-full hover:bg-[#EBA603] transition-colors duration-300 text-sm sm:text-base">
-          Télécharger mon CV
-          <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
-          </svg>
-        </button>
-      </div>
     </div>
   </section>
 </template>
