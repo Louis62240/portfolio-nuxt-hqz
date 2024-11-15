@@ -117,7 +117,7 @@ const technicalSkills = ref([
   { name: 'Web Performance Optimization', level: 80 },
   { name: 'Database Management (SQL & NoSQL)', level: 75 },
   { name: 'React', level: 75 },
-  { name: 'Responsive Design', level: 85 },
+  { name: 'Responsive Design', level: 75 },
   { name: 'UI/UX Design', level: 75 }
 ])
 
