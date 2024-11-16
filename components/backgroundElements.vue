@@ -227,7 +227,6 @@ onMounted(() => {
   filter: blur(5px);
   animation: pulse 4s ease-in-out infinite;
 }
-
 /* Scroll indicator */
 .scroll-indicator {
   position: fixed;
@@ -238,21 +237,38 @@ onMounted(() => {
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
+  opacity: 0; /* Masque l'élément initialement */
+  animation: fadeIn 1s forwards var(--animation-delay); /* Animation d'apparition */
 }
 
 .scroll-text {
   color: #298B6E;
-  font-size: 0.875rem;
-  animation: bounce 2s infinite;
+  font-size: 1rem; /* Augmente la taille du texte pour plus de visibilité */
+  font-weight: bold; /* Met en gras le texte pour plus d'impact */
+  animation: bounce 2s infinite; /* Animation de rebond */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4); /* Ombre plus prononcée pour un effet de profondeur */
+  letter-spacing: 0.05em; /* Espacement des lettres pour une meilleure lisibilité */
 }
 
 .scroll-line {
-  width: 2px;
-  height: 60px;
-  background: linear-gradient(to bottom, #006A4E, transparent);
+  width: 4px; /* Augmente la largeur de la ligne pour plus de visibilité */
+  height: 70px; /* Augmente la hauteur de la ligne */
+  background: linear-gradient(to bottom, #006A4E, rgba(0, 106, 78, 0)); /* Amélioration du dégradé */
   border-radius: 2px;
-  animation: glow 2s ease-in-out infinite;
+  animation: glow 2s ease-in-out infinite; /* Animation de lueur */
+  box-shadow: 0 0 15px rgba(0, 106, 78, 0.6), 0 0 30px rgba(0, 106, 78, 0.3); /* Ombre portée améliorée pour un effet lumineux */
 }
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); } /* Augmente le rebond */
+}
+
+@keyframes glow {
+  0%, 100% { background: rgba(0, 106, 78, 0.5); }
+  50% { background: rgba(0, 106, 78, 1); } /* Intensifie la lueur */
+}
+
 
 /* Entrance animations */
 .fade-in {
