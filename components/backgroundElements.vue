@@ -59,24 +59,7 @@
 
         <!-- Animation droite -->
         <div class="relative aspect-square hidden lg:block fade-in" style="--animation-delay: 1.9s">
-          <!-- Grille interactive -->
-          <div class="absolute inset-0 grid-animation">
-            <div v-for="n in 64" :key="n" class="grid-cube scale-in" :style="{
-              '--delay': `${n * 0.05}s`,
-              '--color': n % 2 ? '#006A4E' : '#298B6E',
-              '--animation-delay': `${2 + (n * 0.03)}s`
-            }">
-            </div>
-          </div>
-
-          <!-- Sphère centrale -->
-          <div class="central-sphere scale-in" style="--animation-delay: 2.5s">
-            <div class="sphere-rings">
-              <div v-for="n in 3" :key="n" class="sphere-ring" :style="{ '--rotation': `${n * 60}deg` }">
-              </div>
-            </div>
-            <div class="sphere-core"></div>
-          </div>
+          <DesignComponent/>
         </div>
       </div>
     </div>
@@ -91,6 +74,7 @@
 
 <script setup>
 import { onMounted } from 'vue'
+import DesignComponent from '@/components/DesignComponent.vue';
 
 onMounted(() => {
   // Réinitialiser les animations lors du rechargement de la page
