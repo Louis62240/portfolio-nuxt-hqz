@@ -1,10 +1,7 @@
 <template>
     <section class="min-h-screen bg-[#F5E6D3] text-[#004D3D] py-20 relative overflow-hidden w-full">
       <!-- Background gradient effect -->
-      <div class="absolute inset-0 bg-gradient"></div>
-  
-      <!-- Animated background patterns -->
-      <div class="pattern-grid"></div>
+      <div class="noise-overlay"></div>
   
       <!-- Floating elements -->
       <div class="floating-elements">
@@ -18,7 +15,8 @@
              }">
         </div>
       </div>
-  
+
+      <div class="geometric-pattern fade-in" style="--animation-delay: 0.3s"></div>
       <div class="container-full relative z-10">
         <!-- Section header -->
         <div class="text-center mb-32 reveal-text">

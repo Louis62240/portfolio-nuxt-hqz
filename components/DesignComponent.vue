@@ -1,461 +1,174 @@
 <template>
-    <div class="animation-container">
-      <div class="particle-container">
-        <div v-for="n in 50" :key="n" class="particle"></div>
-      </div>
-      <div class="statue" :class="{ 'fade-out': showPopup }" @click="startGameTransition">
-        <div class="statue-glow"></div>
-        <div class="statue-base">
-          <div class="base-highlight"></div>
-        </div>
-        <div class="statue-body">
-          <div class="statue-head">
-            <div class="head-highlight"></div>
-          </div>
-          <div class="statue-torso">
-            <div class="torso-detail">
-                <button class="play-button"><img src='/images/play-button-arrowhead.png'></button>
-            </div>
-            <div class="torso-highlight"></div>
-          </div>
-          <div class="statue-arm left">
-            <div class="arm-highlight"></div>
-          </div>
-          <div class="statue-arm right">
-            <div class="arm-highlight"></div>
-          </div>
-          <div class="statue-leg left">
-            <div class="leg-highlight"></div>
-          </div>
-          <div class="statue-leg right">
-            <div class="leg-highlight"></div>
-          </div>
-        </div>
-        <div class="explosion-particles" v-if="isExploding">
-          <div v-for="n in 20" :key="n" class="explosion-particle"></div>
-        </div>
-      </div>
-      <div class="game-container" :class="{ 'fade-in': showPopup }" v-if="showPopup">
-        <Game/>
+  <!-- Contenu du design -->
+  <div class="design-container">
+    <!-- Sphère principale -->
+    <div class="sphere">
+      <div class="sphere-inner"></div>
+      <div class="sphere-glow"></div>
+    </div>
+    
+    <!-- Anneaux orbitaux -->
+    <div class="orbital-rings">
+      <div v-for="n in 3" :key="n" class="ring" :style="{ '--rotation': `${n * 60}deg` }"></div>
+    </div>
+
+    <!-- Particules flottantes -->
+    <div class="particles">
+      <div v-for="n in 20" :key="n" class="particle" 
+        :style="{ 
+          '--delay': `${n * 0.5}s`,
+          '--size': `${Math.random() * 10 + 5}px`,
+          '--x': `${Math.random() * 100}%`,
+          '--y': `${Math.random() * 100}%`
+        }">
       </div>
     </div>
+
+    <!-- Grille de fond -->
+    <div class="grid-background">
+      <div v-for="n in 16" :key="n" class="grid-cell"></div>
+    </div>
+  </div>
 </template>
 
-<script>
-import Game from '@/components/Game.vue'
-export default {
-  name: 'StatueAnimation',
-  data() {
-    return {
-      showPopup: false,
-      isExploding: false
-    };
-  },
-  mounted() {
-    this.initParticles();
-  },
-  methods: {
-    initParticles() {
-      const particles = document.querySelectorAll('.particle');
-      particles.forEach(particle => {
-        this.resetParticle(particle);
-      });
-    },
-    resetParticle(particle) {
-      particle.style.left = Math.random() * 100 + 'vw';
-      particle.style.animationDuration = (Math.random() * 3 + 2) + 's';
-      particle.style.animationDelay = Math.random() * 2 + 's';
-    },
-    startGameTransition() {
-      this.isExploding = true;
-      setTimeout(() => {
-        this.showPopup = true;
-      }, 1000);
-    }
-  }
+<script setup>
+// Variables de couleurs exportées
+const colors = {
+  primary: '#004D3D', // Vert foncé
+  secondary: '#298B6E', // Vert moyen
+  accent: '#F5E6D3', // Beige clair
+  background: '#004D3D', // Fond vert foncé
+  surface: '#298B6E', // Surface vert moyen
+  text: '#F5E6D3', // Texte beige
+  textMuted: '#298B6E', // Texte vert moyen
 }
+
+// Exporter les couleurs pour utilisation dans d'autres composants
+defineExpose({
+  colors
+})
 </script>
 
 <style scoped>
-.animation-container {
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
+.design-container {
   position: relative;
-}
-
-.particle-container {
-  position: absolute;
   width: 100%;
   height: 100%;
+  background-color: var(--background-color);
+  overflow: hidden;
+}
+
+/* Sphère principale */
+.sphere {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200px;
+  height: 200px;
+}
+
+.sphere-inner {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #004D3D, #298B6E);
+  animation: pulsate 4s ease-in-out infinite;
+}
+
+.sphere-glow {
+  position: absolute;
+  inset: -20px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 77, 61, 0.4), transparent 70%);
+  filter: blur(20px);
+  animation: glow 4s ease-in-out infinite alternate;
+}
+
+/* Anneaux orbitaux */
+.orbital-rings {
+  position: absolute;
+  inset: 0;
+  animation: rotate 20s linear infinite;
+}
+
+.ring {
+  position: absolute;
+  inset: 10%;
+  border: 2px solid rgba(41, 139, 110, 0.3);
+  border-radius: 50%;
+  transform: rotateX(var(--rotation)) rotateY(var(--rotation));
+}
+
+/* Particules */
+.particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
 }
 
 .particle {
   position: absolute;
-  width: 4px;
-  height: 4px;
-  background: #298B6E;
+  width: var(--size);
+  height: var(--size);
+  background: radial-gradient(circle, #F5E6D3, transparent);
   border-radius: 50%;
-  animation: particleFloat linear infinite;
-  opacity: 0.6;
+  left: var(--x);
+  top: var(--y);
+  animation: float 10s ease-in-out infinite;
+  animation-delay: var(--delay);
 }
 
-.statue {
-  position: relative;
-  width: 200px;
-  height: 400px;
-  animation: float 6s ease-in-out infinite;
-  filter: drop-shadow(0 10px 20px rgba(0,77,61,0.2));
-  transition: transform 0.3s ease;
-}
-
-.statue-glow {
+/* Grille de fond */
+.grid-background {
   position: absolute;
-  width: 300%;
-  height: 300%;
-  background: radial-gradient(circle, rgba(41,139,110,0.1) 0%, transparent 70%);
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  animation: glowPulse 4s ease-in-out infinite;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: 1px;
+  opacity: 0.1;
 }
 
-.statue-base {
-  position: absolute;
-  bottom: 0;
-  width: 160px;
-  height: 40px;
-  background: #004D3D;
-  border-radius: 50%;
-  left: 20px;
-  overflow: hidden;
+.grid-cell {
+  background: linear-gradient(45deg, #004D3D22, #298B6E22);
+  transform-style: preserve-3d;
+  animation: cell-pulse 4s ease-in-out infinite;
+  animation-delay: calc(var(--delay) * 0.5s);
 }
 
-.base-highlight {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(45deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%);
-  animation: shimmer 3s infinite;
+/* Animations */
+@keyframes pulsate {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
 }
 
-.statue-body {
-  position: absolute;
-  bottom: 40px;
-  width: 100%;
-  height: 360px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+@keyframes glow {
+  0% { opacity: 0.5; }
+  100% { opacity: 1; }
 }
 
-.statue-head {
-  width: 60px;
-  height: 60px;
-  background: #006A4E;
-  border-radius: 50%;
-  margin-bottom: 20px;
-  position: relative;
-  overflow: hidden;
-}
-
-.head-highlight {
-  position: absolute;
-  width: 200%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%);
-  animation: shimmer 3s infinite;
-}
-
-.statue-torso {
-  width: 80px;
-  height: 120px;
-  background: #006A4E;
-  border-radius: 20px;
-  position: relative;
-  overflow: hidden;
-}
-
-.torso-detail {
-  position: absolute;
-  width: 60%;
-  height: 60%;
-  border: 2px solid rgba(255,255,255,0.1);
-  border-radius: 15px;
-  top: 20%;
-  left: 20%;
-}
-
-.torso-highlight {
-  position: absolute;
-  width: 200%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%);
-  animation: shimmer 3s infinite;
-}
-
-.statue-arm {
-  position: absolute;
-  width: 20px;
-  height: 100px;
-  background: #298B6E;
-  border-radius: 10px;
-  top: 80px;
-  overflow: hidden;
-}
-
-.arm-highlight {
-  position: absolute;
-  width: 200%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%);
-  animation: shimmer 3s infinite;
-}
-
-.statue-arm.left {
-  left: 30px;
-  transform: rotate(30deg);
-  animation: waveLeft 4s ease-in-out infinite;
-}
-
-.statue-arm.right {
-  right: 30px;
-  transform: rotate(-30deg);
-  animation: waveRight 4s ease-in-out infinite;
-}
-
-.statue-leg {
-  position: absolute;
-  width: 25px;
-  height: 120px;
-  background: #006A4E;
-  border-radius: 10px;
-  bottom: 0;
-  overflow: hidden;
-}
-
-.leg-highlight {
-  position: absolute;
-  width: 200%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%);
-  animation: shimmer 3s infinite;
-}
-
-.statue-leg.left {
-  left: 60px;
-}
-
-.statue-leg.right {
-  right: 60px;
-}
-
-.play-button {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border: none;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  cursor: pointer;
-  outline: none;
-  z-index: 10;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: rgba(255, 255, 255, 0.2);
-  transition: all 0.3s ease;
-}
-
-.play-button:hover {
-  background: rgba(255, 255, 255, 0.3);
-  transform: translate(-50%, -50%) scale(1.1);
-}
-
-.play-button img {
-  width: 50%;
-  height: auto;
-  pointer-events: none;
-}
-
-.explosion-particles {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-
-.explosion-particle {
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  background: #298B6E;
-  border-radius: 50%;
-  animation: explode 1s ease-out forwards;
-  top: 50%;
-  left: 50%;
-}
-
-.fade-out {
-  animation: fadeOut 1s forwards !important;
-}
-
-.fade-in {
-  animation: fadeIn 1s forwards;
-}
-
-.game-container {
-  width: 100%;
-  height: 100%;
-  z-index: 100;
-  opacity: 0;
+@keyframes rotate {
+  to { transform: rotate3d(1, 1, 1, 360deg); }
 }
 
 @keyframes float {
-  0%, 100% {
-    transform: translateY(0) rotate(1deg);
-  }
-  50% {
-    transform: translateY(-20px) rotate(-1deg);
-  }
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(-20px, -20px); }
 }
 
-@keyframes waveLeft {
-  0%, 100% {
-    transform: rotate(30deg);
-  }
-  50% {
-    transform: rotate(45deg);
-  }
+@keyframes cell-pulse {
+  0%, 100% { opacity: 0.1; }
+  50% { opacity: 0.3; }
 }
 
-@keyframes waveRight {
-  0%, 100% {
-    transform: rotate(-30deg);
-  }
-  50% {
-    transform: rotate(-45deg);
-  }
-}
-
-@keyframes glowPulse {
-  0%, 100% {
-    opacity: 0.5;
-    transform: translate(-50%, -50%) scale(1);
-  }
-  50% {
-    opacity: 0.8;
-    transform: translate(-50%, -50%) scale(1.1);
-  }
-}
-
-@keyframes shimmer {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(100%);
-  }
-}
-
-@keyframes particleFloat {
-  0% {
-    transform: translateY(100vh);
-    opacity: 0;
-  }
-  50% {
-    opacity: 0.6;
-  }
-  100% {
-    transform: translateY(-100px);
-    opacity: 0;
-  }
-}
-
-@keyframes explode {
-  0% {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 1;
-  }
-  100% {
-    transform: translate(
-      calc(var(--random-x, 0) * 300px - 150px),
-      calc(var(--random-y, 0) * 300px - 150px)
-    ) scale(0);
-    opacity: 0;
-  }
-}
-
-@keyframes fadeOut {
-  0% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.2);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(0);
-  }
-}
-
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-    transform: scale(0.8);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-/* Particules d'explosion avec délais différents */
-.explosion-particle:nth-child(1) { --random-x: 0.1; --random-y: 0.3; animation-delay: 0.0s; }
-.explosion-particle:nth-child(2) { --random-x: 0.8; --random-y: 0.5; animation-delay: 0.1s; }
-.explosion-particle:nth-child(3) { --random-x: 0.3; --random-y: 0.7; animation-delay: 0.2s; }
-.explosion-particle:nth-child(4) { --random-x: 0.6; --random-y: 0.2; animation-delay: 0.3s; }
-.explosion-particle:nth-child(5) { --random-x: 0.2; --random-y: 0.8; animation-delay: 0.4s; }
-.explosion-particle:nth-child(6) { --random-x: 0.9; --random-y: 0.1; animation-delay: 0.5s; }
-.explosion-particle:nth-child(7) { --random-x: 0.4; --random-y: 0.6; animation-delay: 0.6s; }
-.explosion-particle:nth-child(8) { --random-x: 0.7; --random-y: 0.4; animation-delay: 0.7s; }
-.explosion-particle:nth-child(9) { --random-x: 0.1; --random-y: 0.9; animation-delay: 0.8s; }
-.explosion-particle:nth-child(10) { --random-x: 0.5; --random-y: 0.3; animation-delay: 0.9s; }
-
-/* Media Queries */
-@media (max-width: 768px) {
-  .statue {
-    transform: scale(0.8);
-  }
-  
-  .explosion-particle {
-    transform-origin: center;
-  }
-}
-
-@media (max-width: 480px) {
-  .statue {
-    transform: scale(0.6);
-  }
-}
-
-/* Hover effects */
-.statue:hover {
-  animation-play-state: paused;
-}
-
-.statue:hover .statue-glow {
-  animation: glowPulse 2s ease-in-out infinite;
-}
-
-.statue:hover .play-button {
-  transform: translate(-50%, -50%) scale(1.1);
-  background: rgba(255, 255, 255, 0.3);
+/* Variables CSS personnalisées */
+:root {
+  --background-color: #004D3D;
+  --primary-color: #004D3D;
+  --secondary-color: #298B6E;
+  --accent-color: #F5E6D3;
+  --text-color: #F5E6D3;
+  --text-muted: #298B6E;
 }
 </style>
