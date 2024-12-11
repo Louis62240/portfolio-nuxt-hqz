@@ -3,68 +3,68 @@
     <!-- Effet de grain animé -->
     <div class="noise-overlay"></div>
 
-    <!-- Orbes lumineux flottants -->
+    <!-- Orbes lumineux flottants avec positions ajustées -->
     <div class="floating-orbs">
       <div v-for="n in 5" :key="n" class="orb fade-in" :style="{
         '--delay': `${n * 2}s`,
-        '--size': `${100 + n * 50}px`,
-        '--x': `${n * 20}%`,
-        '--y': `${n * 15}%`,
+        '--size': `${120 + n * 60}px`,
+        '--x': `${n * 25}%`,
+        '--y': `${n * 18}%`,
         '--animation-delay': `${n * 0.2}s`
       }">
       </div>
     </div>
 
-    <!-- Motif géométrique dynamique -->
+    <!-- Motif géométrique dynamique avec opacité réduite -->
     <div class="geometric-pattern fade-in" style="--animation-delay: 0.3s"></div>
 
     <!-- Contenu principal -->
-    <div class="relative z-10 w-full h-screen px-6 flex items-center">
-      <div class="grid lg:grid-cols-2 gap-16 items-center w-full max-w-[2000px] mx-auto">
+    <div class="relative z-10 w-full min-h-screen px-8 flex items-center justify-center">
+      <div class="grid lg:grid-cols-2 gap-20 items-center w-full max-w-[1800px] mx-auto">
         <!-- Section gauche -->
-        <div class="space-y-10 transform-gpu">
-          <div class="space-y-4">
-            <div class="text-sm uppercase tracking-[0.3em] text-[#298B6E] slide-in-left"
+        <div class="space-y-12 transform-gpu lg:pl-12">
+          <div class="space-y-6">
+            <div class="text-sm uppercase tracking-[0.4em] text-[#298B6E] slide-in-left"
               style="--animation-delay: 0.5s">
               Portfolio Digital
             </div>
 
-            <h1 class="text-6xl md:text-8xl font-bold tracking-tight leading-none">
+            <h1 class="text-7xl md:text-9xl font-bold tracking-tight leading-tight">
               <span class="block magical-text slide-in-left" style="--animation-delay: 0.7s"
                 data-text="Créatif">Hanquiez Louis</span>
-              <span class="block mt-2 gradient-animate slide-in-left" style="--animation-delay: 0.9s">Développeur</span>
-              <span class="block mt-2 neon-text slide-in-left" style="--animation-delay: 1.1s">Full-Stack</span>
+              <span class="block mt-3 gradient-animate slide-in-left" style="--animation-delay: 0.9s">Développeur</span>
+              <span class="block mt-3 neon-text slide-in-left" style="--animation-delay: 1.1s">Full-Stack</span>
             </h1>
           </div>
 
-          <p class="text-[#298B6E] text-xl leading-relaxed max-w-xl prose-elegant fade-in-up"
+          <p class="text-[#298B6E] text-2xl leading-relaxed max-w-2xl prose-elegant fade-in-up"
             style="--animation-delay: 1.3s">
             Spécialisé dans la création d'expériences web innovantes et immersives.
             Je transforme vos idées en réalités numériques captivantes.
           </p>
 
-          <div class="flex flex-wrap gap-6">
+          <div class="flex flex-wrap gap-8">
             <button class="magical-button group scale-in" style="--animation-delay: 1.5s">
-              <span class="relative z-10 text-[#F5E6D3] text-lg">
+              <span class="relative z-10 text-[#F5E6D3] text-xl font-medium">
                 Voir mes projets
               </span>
               <div class="magical-button-bg"></div>
             </button>
 
-            <button class="glass-button scale-in" style="--animation-delay: 1.7s">
+            <button class="glass-button scale-in text-xl font-medium" style="--animation-delay: 1.7s">
               En savoir plus
             </button>
           </div>
         </div>
 
-        <!-- Animation droite -->
-        <div class="relative aspect-square hidden lg:block fade-in" style="--animation-delay: 1.9s">
+        <!-- Animation droite avec marge -->
+        <div class="relative aspect-square hidden lg:block fade-in mr-12" style="--animation-delay: 1.9s">
           <DesignComponent/>
         </div>
       </div>
     </div>
 
-    <!-- Indicateur de défilement -->
+    <!-- Indicateur de défilement amélioré -->
     <div class="scroll-indicator fade-in" style="--animation-delay: 2.7s">
       <div class="scroll-text">Découvrir</div>
       <div class="scroll-line"></div>

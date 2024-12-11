@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <section class="py-12 bg-[#F5E6D3] text-[#004D3D] w-full">
     <div class="max-w-6xl mx-auto px-4">
       <div class="mb-12 text-center reveal-item">
@@ -14,6 +15,43 @@
               <div class="shrink-0">
                 <span class="text-3xl font-bold text-[#2A9D8F]">{{ item.year }}</span>
                 <p class="text-sm text-[#4A4A4A] mt-1">{{ item.duration }}</p>
+=======
+    <section class="min-h-screen bg-[#F5E6D3] text-[#004D3D] py-20 relative overflow-hidden w-full">
+      <!-- Background gradient effect -->
+      <div class="noise-overlay"></div>
+  
+      <!-- Floating elements -->
+      <div class="floating-elements">
+        <div v-for="n in 20" :key="n" 
+             class="floating-element"
+             :style="{
+               '--delay': `${n * 0.5}s`,
+               '--size': `${20 + Math.random() * 30}px`,
+               '--x': `${Math.random() * 100}vw`,
+               '--y': `${Math.random() * 100}vh`
+             }">
+        </div>
+      </div>
+
+      <div class="geometric-pattern fade-in" style="--animation-delay: 0.3s"></div>
+      <div class="container-full relative z-10">
+        <!-- Section header -->
+        <div class="text-center mb-32 reveal-text">
+          <h2 class="text-6xl font-bold tracking-tight magical-underline">Parcours Académique</h2>
+          <p class="text-xl mt-6 text-[#298B6E] max-w-2xl mx-auto">
+            Une progression constante dans le développement web et l'informatique
+          </p>
+        </div>
+  
+        <!-- Timeline -->
+        <div class="education-timeline">
+          <!-- 2023-2024 -->
+          <div class="timeline-item reveal-item">
+            <div class="timeline-content">
+              <div class="time-period">
+                <span class="year">2023</span>
+                <span class="duration">Présent</span>
+>>>>>>> e7c0149071d293602912cc65759c365bc6fc2aeb
               </div>
 
               <div class="flex-1 min-w-[280px]">
