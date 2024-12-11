@@ -1,414 +1,217 @@
 <template>
-    <section class="min-h-screen bg-[#F5E6D3] text-[#004D3D] py-20 relative overflow-hidden w-full">
-      <!-- Background gradient effect -->
-      <div class="absolute inset-0 bg-gradient"></div>
-  
-      <!-- Animated background patterns -->
-      <div class="pattern-grid"></div>
-  
-      <!-- Floating elements -->
-      <div class="floating-elements">
-        <div v-for="n in 20" :key="n" 
-             class="floating-element"
-             :style="{
-               '--delay': `${n * 0.5}s`,
-               '--size': `${20 + Math.random() * 30}px`,
-               '--x': `${Math.random() * 100}vw`,
-               '--y': `${Math.random() * 100}vh`
-             }">
-        </div>
+  <section class="py-12 bg-[#F5E6D3] text-[#004D3D] w-full">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="mb-12 text-center reveal-item">
+        <h2 class="text-4xl font-bold text-[#264653] mb-3">{{ title }}</h2>
+        <p class="text-[#4A4A4A] text-lg">{{ description }}</p>
       </div>
-  
-      <div class="container-full relative z-10">
-        <!-- Section header -->
-        <div class="text-center mb-32 reveal-text">
-          <h2 class="text-6xl font-bold tracking-tight magical-underline">Parcours Académique</h2>
-          <p class="text-xl mt-6 text-[#298B6E] max-w-2xl mx-auto">
-            Une progression constante dans le développement web et l'informatique
-          </p>
-        </div>
-  
-        <!-- Timeline -->
-        <div class="education-timeline">
-          <!-- 2023-2024 -->
-          <div class="timeline-item reveal-item">
-            <div class="timeline-content">
-              <div class="time-period">
-                <span class="year">2023</span>
-                <span class="duration">Présent</span>
+
+      <div class="space-y-8">
+        <div v-for="(item, index) in educationTimeline" :key="index" 
+             class="reveal-item hover:transform hover:scale-[1.02] transition-all duration-300">
+          <div class="bg-white rounded-2xl shadow-custom hover:shadow-custom-hover transition-all duration-300 p-8 border-l-8 border-[#2A9D8F]">
+            <div class="flex flex-wrap items-start gap-6">
+              <div class="shrink-0">
+                <span class="text-3xl font-bold text-[#2A9D8F]">{{ item.year }}</span>
+                <p class="text-sm text-[#4A4A4A] mt-1">{{ item.duration }}</p>
               </div>
-              <div class="content-wrapper">
-                <div class="content-card">
-                  <h3 class="text-3xl font-bold mb-4 gradient-text">Bachelor 3 Développement Full-Stack</h3>
-                  <p class="text-lg mb-6">Concepteur Développeur d'Applications</p>
-                  <div class="skills-grid">
-                    <div class="skill-item" v-for="skill in ['React', 'Vue.js', 'Node.js', 'DevOps', 'Cloud', 'CI/CD']" :key="skill">
-                      {{ skill }}
-                    </div>
-                  </div>
-                  <div class="achievements">
-                    <ul class="achievement-list">
-                      <li>Développement d'applications web complexes</li>
-                      <li>Maîtrise des architectures modernes</li>
-                      <li>Gestion de projets agiles</li>
-                    </ul>
+
+              <div class="flex-1 min-w-[280px]">
+                <div class="flex items-start justify-between mb-2">
+                  <h3 class="text-2xl font-semibold text-[#264653]">{{ item.title }}</h3>
+                  <div class="flex items-center text-[#2A9D8F] cursor-pointer hover:text-[#264653] transition-colors"
+                       @click="toggleMap(index)">
+                    <Icon name="mdi:map-marker" class="w-5 h-5 mr-1" />
+                    <span class="text-sm">{{ item.location }}</span>
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
-  
-          <!-- 2022-2023 -->
-          <div class="timeline-item reveal-item">
-            <div class="timeline-content">
-              <div class="time-period">
-                <span class="year">2022</span>
-                <span class="duration">1 an</span>
-              </div>
-              <div class="content-wrapper">
-                <div class="content-card">
-                  <h3 class="text-3xl font-bold mb-4 gradient-text">BTS SIO SLAM</h3>
-                  <p class="text-lg mb-6">Services Informatiques aux Organisations</p>
-                  <div class="skills-grid">
-                    <div class="skill-item" v-for="skill in ['Java', 'PHP', 'SQL', 'API REST', 'Spring', 'Laravel']" :key="skill">
-                      {{ skill }}
-                    </div>
-                  </div>
-                  <div class="achievements">
-                    <ul class="achievement-list">
-                      <li>Développement back-end avancé</li>
-                      <li>Conception de bases de données</li>
-                      <li>Architecture logicielle</li>
-                    </ul>
-                  </div>
+                
+                <p class="text-[#4A4A4A] text-base mb-4">{{ item.subtitle }}</p>
+
+                <!-- Carte -->
+                <div v-if="activeMap === index" 
+                     class="w-full h-48 mb-4 rounded-lg overflow-hidden transition-all duration-300">
+                  <iframe
+                    :src="item.mapUrl"
+                    class="w-full h-full border-0"
+                    allowfullscreen=""
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade">
+                  </iframe>
                 </div>
-              </div>
-            </div>
-          </div>
-  
-          <!-- 2021-2022 -->
-          <div class="timeline-item reveal-item">
-            <div class="timeline-content">
-              <div class="time-period">
-                <span class="year">2021</span>
-                <span class="duration">1 an</span>
-              </div>
-              <div class="content-wrapper">
-                <div class="content-card">
-                  <h3 class="text-3xl font-bold mb-4 gradient-text">BTS SIO SLAM</h3>
-                  <p class="text-lg mb-6">Première année</p>
-                  <div class="skills-grid">
-                    <div class="skill-item" v-for="skill in ['HTML/CSS', 'JavaScript', 'Python', 'Algo', 'Git', 'Linux']" :key="skill">
-                      {{ skill }}
-                    </div>
-                  </div>
-                  <div class="achievements">
-                    <ul class="achievement-list">
-                      <li>Fondamentaux du développement web</li>
-                      <li>Initiation aux bonnes pratiques</li>
-                      <li>Méthodologies de développement</li>
-                    </ul>
-                  </div>
+
+                <div class="flex flex-wrap gap-3 mb-6">
+                  <span v-for="(skill, skillIndex) in item.skills" :key="skillIndex"
+                    class="px-4 py-2 text-sm font-medium bg-[#F5F2EB] text-[#2A9D8F] rounded-lg flex items-center
+                    hover:bg-[#2A9D8F] hover:text-white transition-colors duration-300">
+                    <img :src="getSkillIcon(skill)" class="w-5 h-5 mr-2" :alt="skill">
+                    {{ skill }}
+                  </span>
                 </div>
-              </div>
-            </div>
-          </div>
-  
-          <!-- 2020-2021 -->
-          <div class="timeline-item reveal-item">
-            <div class="timeline-content">
-              <div class="time-period">
-                <span class="year">2020</span>
-                <span class="duration">1 an</span>
-              </div>
-              <div class="content-wrapper">
-                <div class="content-card">
-                  <h3 class="text-3xl font-bold mb-4 gradient-text">Baccalauréat STI2D</h3>
-                  <p class="text-lg mb-6">Sciences et Technologies de l'Industrie</p>
-                  <div class="skills-grid">
-                    <div class="skill-item" v-for="skill in ['Arduino', 'Électronique', 'CAO', 'Mécanique', 'Prototype', 'Design']" :key="skill">
-                      {{ skill }}
-                    </div>
-                  </div>
-                  <div class="achievements">
-                    <ul class="achievement-list">
-                      <li>Introduction à la programmation</li>
-                      <li>Conception assistée par ordinateur</li>
-                      <li>Projets techniques innovants</li>
-                    </ul>
-                  </div>
-                </div>
+
+                <ul class="space-y-3">
+                  <li v-for="(achievement, achievementIndex) in item.achievements" :key="achievementIndex"
+                    class="text-base text-[#4A4A4A] flex items-start">
+                    <span class="mr-3 text-[#2A9D8F] text-xl">•</span>
+                    {{ achievement }}
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </section>
-  </template>
-  
-  <style scoped>
-  .container-full {
-    width: 100%;
-    max-width: 1920px;
-    margin: 0 auto;
-    padding: 0 2rem;
+    </div>
+  </section>
+</template>
+
+<script setup>
+import { ref, onMounted, onUnmounted } from 'vue'
+
+const title = "Academic Journey"
+const description = "A constant progression in web development and computer science"
+const activeMap = ref(null)
+
+const toggleMap = (index) => {
+  activeMap.value = activeMap.value === index ? null : index
+}
+const educationTimeline = [
+  {
+    year: "2023",
+    duration: "Present",
+    title: "Master's Degree in AI Engineering",
+    subtitle: "Expert in Artificial Intelligence",
+    location: "EPSI Lille",
+    mapUrl: "https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d5544849.817188305!2d2.3522219!3d46.227638!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sfr!2sfr!4v1629890876584!5m2!1sfr!2sfr&markers=color:red%7C50.633386,3.044890",
+    skills: ['Machine Learning', 'Clustering', 'Data Science', 'Python', 'Deep Learning', 'Neural Networks'],
+    achievements: [
+      "AI fundamentals and advanced concepts",
+      "Machine learning algorithms implementation",
+      "Data analysis and processing"
+    ]
+  },
+  {
+    year: "2022",
+    duration: "1 year",
+    title: "Bachelor's Degree in Application Development",
+    subtitle: "Application Designer and Developer",
+    location: "EPSI Lille",
+    mapUrl: "https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d5544849.817188305!2d2.3522219!3d46.227638!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sfr!2sfr!4v1629890876584!5m2!1sfr!2sfr&markers=color:red%7C50.633386,3.044890",
+    skills: ['JavaScript', 'React', 'Node.js', 'Vue.js', 'REST APIs', 'MongoDB'],
+    achievements: [
+      "Dynamic web applications development",
+      "Modern JavaScript frameworks",
+      "Full-stack development"
+    ]
+  },
+  {
+    year: "2020",
+    duration: "2 years",
+    title: "BTS SIO SLAM",
+    subtitle: "IT Services for Organizations",
+    location: "Lycée Saint Joseph - Boulogne-sur-Mer",
+    mapUrl: "https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d5544849.817188305!2d2.3522219!3d46.227638!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sfr!2sfr!4v1629890876584!5m2!1sfr!2sfr&markers=color:red%7C50.725777,1.608097",
+    skills: ['HTML/CSS', 'PHP', 'Java', 'SQL', 'OOP', 'Git'],
+    achievements: [
+      "Web development fundamentals",
+      "Object-oriented programming basics",
+      "Database management"
+    ]
   }
-  
-  .bg-gradient {
-    background: linear-gradient(135deg, rgba(245, 230, 211, 0.8) 0%, rgba(41, 139, 110, 0.1) 100%);
+]
+const getSkillIcon = (skill) => {
+  const icons = {
+    'Machine Learning': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tensorflow/tensorflow-original.svg',
+    'Clustering': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original.svg',
+    'Data Science': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/numpy/numpy-original.svg',
+    'Python': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg',
+    'Deep Learning': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pytorch/pytorch-original.svg',
+    'Neural Networks': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/keras/keras-original.svg',
+    'JavaScript': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg',
+    'React': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg',
+    'Node.js': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg',
+    'Vue.js': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg',
+    'REST APIs': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg',
+    'MongoDB': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg',
+    'HTML/CSS': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg',
+    'PHP': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-plain.svg',
+    'Java': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg',
+    'SQL': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg',
+    'OOP': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg',
+    'Git': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg'
   }
-  
-  .pattern-grid {
-    position: absolute;
-    inset: 0;
-    background-image: 
-      linear-gradient(rgba(41, 139, 110, 0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(41, 139, 110, 0.05) 1px, transparent 1px);
-    background-size: 30px 30px;
-    animation: patternMove 20s linear infinite;
-  }
-  
-  .floating-elements {
-    position: absolute;
-    inset: 0;
-    overflow: hidden;
-  }
-  
-  .floating-element {
-    position: absolute;
-    width: var(--size);
-    height: var(--size);
-    left: var(--x);
-    top: var(--y);
-    background: rgba(41, 139, 110, 0.1);
-    border-radius: 50%;
-    animation: float 20s infinite ease-in-out;
-    animation-delay: var(--delay);
-  }
-  
-  .magical-underline {
-    position: relative;
-    display: inline-block;
-  }
-  
-  .magical-underline::after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 0;
-    width: 100%;
-    height: 4px;
-    background: linear-gradient(90deg, #298B6E, #004D3D);
-    border-radius: 2px;
-    transform: scaleX(0);
-    transform-origin: left;
-    animation: underlineReveal 1s forwards 0.5s;
-  }
-  
+  return icons[skill] || 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/devicon/devicon-original.svg'
+}
+
+onMounted(() => {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible')
+      }
+    })
+  }, {
+    threshold: 0.1
+  })
+
+  document.querySelectorAll('.reveal-item').forEach(item => {
+    observer.observe(item)
+  })
+
+  onUnmounted(() => {
+    observer.disconnect()
+  })
+})
+</script>
+<style scoped>
+.reveal-item {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reveal-item.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.shadow-custom {
+  box-shadow: 0 4px 6px -1px rgba(42, 157, 143, 0.1), 
+              0 2px 4px -1px rgba(42, 157, 143, 0.06);
+}
+
+.shadow-custom-hover {
+  box-shadow: 0 10px 15px -3px rgba(42, 157, 143, 0.15), 
+              0 4px 6px -2px rgba(42, 157, 143, 0.1);
+}
+
+@media (max-width: 640px) {
   .education-timeline {
-    display: flex;
-    flex-direction: column;
-    gap: 6rem;
-    position: relative;
-    padding: 0 2rem;
-  }
-  
-  .timeline-item {
-    opacity: 0;
-    transform: translateY(50px);
-    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  
-  .timeline-content {
-    display: flex;
-    gap: 3rem;
-    position: relative;
-  }
-  
-  .time-period {
-    min-width: 150px;
-    text-align: right;
-    padding-top: 1rem;
-  }
-  
-  .year {
-    font-size: 2rem;
-    font-weight: bold;
-    color: #004D3D;
-    display: block;
-  }
-  
-  .duration {
-    font-size: 1.1rem;
-    color: #298B6E;
-  }
-  
-  .content-wrapper {
-    flex: 1;
-    position: relative;
-  }
-  
-  .content-wrapper::before {
-    content: '';
-    position: absolute;
-    left: -1.5rem;
-    top: 1.5rem;
-    width: 1rem;
-    height: 1rem;
-    background: #298B6E;
-    border-radius: 50%;
-    box-shadow: 0 0 0 5px rgba(41, 139, 110, 0.2);
-  }
-  
-  .content-card {
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(10px);
-    border-radius: 20px;
-    padding: 2.5rem;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
-  }
-  
-  .content-card:hover {
-    transform: translateY(-5px);
-  }
-  
-  .skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 1rem;
-    margin: 1.5rem 0;
-  }
-  
-  .skill-item {
-    background: rgba(41, 139, 110, 0.1);
-    padding: 0.5rem 1rem;
-    border-radius: 30px;
-    text-align: center;
-    font-size: 0.9rem;
-    color: #004D3D;
-    transition: all 0.3s ease;
-  }
-  
-  .skill-item:hover {
-    background: rgba(41, 139, 110, 0.2);
-    transform: translateY(-2px);
-  }
-  
-  .achievement-list {
-    list-style: none;
     padding: 0;
   }
   
-  .achievement-list li {
-    position: relative;
-    padding-left: 1.5rem;
-    margin-bottom: 0.5rem;
-    color: #004D3D;
+  div[class*="space-y-8"] {
+    margin: 0 -1rem;
   }
   
-  .achievement-list li::before {
-    content: '→';
-    position: absolute;
-    left: 0;
-    color: #298B6E;
+  div[class*="rounded-2xl"] {
+    border-radius: 0;
+    padding: 1.5rem;
   }
-  
-  .gradient-text {
-    background: linear-gradient(135deg, #004D3D, #298B6E);
-    -webkit-background-clip: text;
-    color: transparent;
+}
+iframe {
+  transform-origin: top;
+  animation: mapFadeIn 0.3s ease-out;
+}
+
+@keyframes mapFadeIn {
+  from {
+    opacity: 0;
+    transform: scaleY(0);
   }
-  
-  /* Animations */
-  @keyframes float {
-    0%, 100% { transform: translate(0, 0); }
-    50% { transform: translate(20px, -20px); }
-  }
-  
-  @keyframes patternMove {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(30px); }
-  }
-  
-  @keyframes underlineReveal {
-    to { transform: scaleX(1); }
-  }
-  
-  /* Reveal animation class */
-  .reveal-item.visible {
+  to {
     opacity: 1;
-    transform: translateY(0);
+    transform: scaleY(1);
   }
-  
-  /* Responsive Design */
-  @media (max-width: 1024px) {
-    .time-period {
-      min-width: 100px;
-    }
-    
-    .content-card {
-      padding: 1.5rem;
-    }
-  }
-  
-  @media (max-width: 768px) {
-    .timeline-content {
-      flex-direction: column;
-      gap: 1rem;
-    }
-  
-    .time-period {
-      text-align: left;
-      padding-left: 2rem;
-    }
-  
-    .content-wrapper::before {
-      left: -2rem;
-    }
-  
-    .skills-grid {
-      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .container-full {
-      padding: 0 1rem;
-    }
-  
-    .education-timeline {
-      padding: 0 1rem;
-    }
-  
-    .year {
-      font-size: 1.5rem;
-    }
-  }
-  </style>
-  
-  <script setup>
-  import { onMounted, onUnmounted } from 'vue'
-  
-  // Intersection Observer pour les animations au scroll
-  onMounted(() => {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible')
-        }
-      })
-    }, {
-      threshold: 0.1
-    })
-  
-    document.querySelectorAll('.reveal-item').forEach(item => {
-      observer.observe(item)
-    })
-  
-    // Cleanup
-    onUnmounted(() => {
-      observer.disconnect()
-    })
-  })
-  </script>
+}
+</style>
