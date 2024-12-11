@@ -1,5 +1,4 @@
 <template>
-<<<<<<< HEAD
   <section class="py-12 bg-[#F5E6D3] text-[#004D3D] w-full">
     <div class="max-w-6xl mx-auto px-4">
       <div class="mb-12 text-center reveal-item">
@@ -8,88 +7,69 @@
       </div>
 
       <div class="space-y-8">
-        <div v-for="(item, index) in educationTimeline" :key="index" 
-             class="reveal-item hover:transform hover:scale-[1.02] transition-all duration-300">
+        <div 
+          v-for="(item, index) in educationTimeline" 
+          :key="index"
+          class="reveal-item hover:transform hover:scale-[1.02] transition-all duration-300"
+        >
           <div class="bg-white rounded-2xl shadow-custom hover:shadow-custom-hover transition-all duration-300 p-8 border-l-8 border-[#2A9D8F]">
             <div class="flex flex-wrap items-start gap-6">
               <div class="shrink-0">
                 <span class="text-3xl font-bold text-[#2A9D8F]">{{ item.year }}</span>
                 <p class="text-sm text-[#4A4A4A] mt-1">{{ item.duration }}</p>
-=======
-    <section class="min-h-screen bg-[#F5E6D3] text-[#004D3D] py-20 relative overflow-hidden w-full">
-      <!-- Background gradient effect -->
-      <div class="noise-overlay"></div>
-  
-      <!-- Floating elements -->
-      <div class="floating-elements">
-        <div v-for="n in 20" :key="n" 
-             class="floating-element"
-             :style="{
-               '--delay': `${n * 0.5}s`,
-               '--size': `${20 + Math.random() * 30}px`,
-               '--x': `${Math.random() * 100}vw`,
-               '--y': `${Math.random() * 100}vh`
-             }">
-        </div>
-      </div>
-
-      <div class="geometric-pattern fade-in" style="--animation-delay: 0.3s"></div>
-      <div class="container-full relative z-10">
-        <!-- Section header -->
-        <div class="text-center mb-32 reveal-text">
-          <h2 class="text-6xl font-bold tracking-tight magical-underline">Parcours Académique</h2>
-          <p class="text-xl mt-6 text-[#298B6E] max-w-2xl mx-auto">
-            Une progression constante dans le développement web et l'informatique
-          </p>
-        </div>
-  
-        <!-- Timeline -->
-        <div class="education-timeline">
-          <!-- 2023-2024 -->
-          <div class="timeline-item reveal-item">
-            <div class="timeline-content">
-              <div class="time-period">
-                <span class="year">2023</span>
-                <span class="duration">Présent</span>
->>>>>>> e7c0149071d293602912cc65759c365bc6fc2aeb
               </div>
 
               <div class="flex-1 min-w-[280px]">
                 <div class="flex items-start justify-between mb-2">
                   <h3 class="text-2xl font-semibold text-[#264653]">{{ item.title }}</h3>
-                  <div class="flex items-center text-[#2A9D8F] cursor-pointer hover:text-[#264653] transition-colors"
-                       @click="toggleMap(index)">
+                  <div 
+                    class="flex items-center text-[#2A9D8F] cursor-pointer hover:text-[#264653] transition-colors"
+                    @click="toggleMap(index)"
+                  >
                     <Icon name="mdi:map-marker" class="w-5 h-5 mr-1" />
                     <span class="text-sm">{{ item.location }}</span>
                   </div>
                 </div>
-                
+
                 <p class="text-[#4A4A4A] text-base mb-4">{{ item.subtitle }}</p>
 
-                <!-- Carte -->
-                <div v-if="activeMap === index" 
-                     class="w-full h-48 mb-4 rounded-lg overflow-hidden transition-all duration-300">
-                  <iframe
-                    :src="item.mapUrl"
-                    class="w-full h-full border-0"
-                    allowfullscreen=""
-                    loading="lazy"
-                    referrerpolicy="no-referrer-when-downgrade">
-                  </iframe>
+                <!-- Map Section -->
+                <div 
+                  v-if="activeMap === index" 
+                  class="w-full h-48 mb-4 rounded-lg overflow-hidden transition-all duration-300"
+                >
+                  <iframe 
+                    :src="item.mapUrl" 
+                    class="w-full h-full border-0" 
+                    allowfullscreen 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade"
+                  ></iframe>
                 </div>
 
+                <!-- Skills Section -->
                 <div class="flex flex-wrap gap-3 mb-6">
-                  <span v-for="(skill, skillIndex) in item.skills" :key="skillIndex"
-                    class="px-4 py-2 text-sm font-medium bg-[#F5F2EB] text-[#2A9D8F] rounded-lg flex items-center
-                    hover:bg-[#2A9D8F] hover:text-white transition-colors duration-300">
-                    <img :src="getSkillIcon(skill)" class="w-5 h-5 mr-2" :alt="skill">
+                  <span 
+                    v-for="(skill, skillIndex) in item.skills" 
+                    :key="skillIndex" 
+                    class="px-4 py-2 text-sm font-medium bg-[#F5F2EB] text-[#2A9D8F] rounded-lg flex items-center hover:bg-[#2A9D8F] hover:text-white transition-colors duration-300"
+                  >
+                    <img 
+                      :src="getSkillIcon(skill)" 
+                      class="w-5 h-5 mr-2" 
+                      :alt="skill"
+                    >
                     {{ skill }}
                   </span>
                 </div>
 
+                <!-- Achievements Section -->
                 <ul class="space-y-3">
-                  <li v-for="(achievement, achievementIndex) in item.achievements" :key="achievementIndex"
-                    class="text-base text-[#4A4A4A] flex items-start">
+                  <li 
+                    v-for="(achievement, achievementIndex) in item.achievements" 
+                    :key="achievementIndex"
+                    class="text-base text-[#4A4A4A] flex items-start"
+                  >
                     <span class="mr-3 text-[#2A9D8F] text-xl">•</span>
                     {{ achievement }}
                   </li>
@@ -214,29 +194,30 @@ onMounted(() => {
 }
 
 .shadow-custom {
-  box-shadow: 0 4px 6px -1px rgba(42, 157, 143, 0.1), 
-              0 2px 4px -1px rgba(42, 157, 143, 0.06);
+  box-shadow: 0 4px 6px -1px rgba(42, 157, 143, 0.1),
+    0 2px 4px -1px rgba(42, 157, 143, 0.06);
 }
 
 .shadow-custom-hover {
-  box-shadow: 0 10px 15px -3px rgba(42, 157, 143, 0.15), 
-              0 4px 6px -2px rgba(42, 157, 143, 0.1);
+  box-shadow: 0 10px 15px -3px rgba(42, 157, 143, 0.15),
+    0 4px 6px -2px rgba(42, 157, 143, 0.1);
 }
 
 @media (max-width: 640px) {
   .education-timeline {
     padding: 0;
   }
-  
+
   div[class*="space-y-8"] {
     margin: 0 -1rem;
   }
-  
+
   div[class*="rounded-2xl"] {
     border-radius: 0;
     padding: 1.5rem;
   }
 }
+
 iframe {
   transform-origin: top;
   animation: mapFadeIn 0.3s ease-out;
@@ -247,6 +228,7 @@ iframe {
     opacity: 0;
     transform: scaleY(0);
   }
+
   to {
     opacity: 1;
     transform: scaleY(1);

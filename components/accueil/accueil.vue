@@ -4,7 +4,7 @@
       <BackgroundElements />
       <EducationPath/>
       <SkillComponent />
-      <projetComponent />
+      <ProjetComponent />
       <!-- <CvBanner /> -->
       
     </section>

@@ -9,7 +9,7 @@
     
     <!-- Anneaux orbitaux -->
     <div class="orbital-rings">
-      <div v-for="n in 3" :key="n" class="ring" :style="{ '--rotation': `${n * 60}deg` }"></div>
+      <div v-for="n in 3" :key="n" class="ring-perso" :style="{ '--rotation': `${n * 60}deg` }"></div>
     </div>
 
     <!-- Particules flottantes -->
@@ -92,10 +92,10 @@ defineExpose({
   animation: rotate 20s linear infinite;
 }
 
-.ring {
+.ring-perso {
   position: absolute;
   inset: 10%;
-  border: 2px solid rgba(41, 139, 110, 0.3);
+  border: 2px solid #298B6E;
   border-radius: 50%;
   transform: rotateX(var(--rotation)) rotateY(var(--rotation));
 }
