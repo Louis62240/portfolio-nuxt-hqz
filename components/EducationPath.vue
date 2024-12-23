@@ -2,30 +2,32 @@
   <section class="py-12 bg-[#F5E6D3] text-[#004D3D] w-full">
     <div class="max-w-6xl mx-auto px-4">
       <div class="mb-12 text-center reveal-item">
-        <h2 class="text-4xl font-bold text-[#264653] mb-3">{{ title }}</h2>
+        <h2 class="text-4xl font-bold text-[#004D3D] mb-3">{{ title }}</h2>
         <p class="text-[#4A4A4A] text-lg">{{ description }}</p>
       </div>
 
       <div class="space-y-8">
-        <div 
-          v-for="(item, index) in educationTimeline" 
-          :key="index"
-          class="reveal-item hover:transform hover:scale-[1.02] transition-all duration-300"
-        >
-          <div class="bg-white rounded-2xl shadow-custom hover:shadow-custom-hover transition-all duration-300 p-8 border-l-8 border-[#2A9D8F]">
+        <div v-for="(item, index) in educationTimeline" :key="index"
+          class="reveal-item hover:transform hover:scale-[1.02] transition-all duration-300">
+          <div
+            class="bg-white rounded-2xl shadow-custom hover:shadow-custom-hover transition-all duration-300 p-8 border-l-8 border-[#2A9D8F]">
             <div class="flex flex-wrap items-start gap-6">
               <div class="shrink-0">
-                <span class="text-3xl font-bold text-[#2A9D8F]">{{ item.year }}</span>
-                <p class="text-sm text-[#4A4A4A] mt-1">{{ item.duration }}</p>
+                <div class="flex flex-col space-y-1">
+                  <div class="text-3xl font-bold text-[#2A9D8F] flex items-center gap-2">
+                    <span>{{ item.startDate }}</span>
+                    <span class="text-lg">-</span>
+                    <span>{{ item.endDate }}</span>
+                  </div>
+                  <p class="text-sm text-[#4A4A4A] mt-1">{{ item.duration }}</p>
+                </div>
               </div>
 
               <div class="flex-1 min-w-[280px]">
                 <div class="flex items-start justify-between mb-2">
                   <h3 class="text-2xl font-semibold text-[#264653]">{{ item.title }}</h3>
-                  <div 
-                    class="flex items-center text-[#2A9D8F] cursor-pointer hover:text-[#264653] transition-colors"
-                    @click="toggleMap(index)"
-                  >
+                  <div class="flex items-center text-[#2A9D8F] cursor-pointer hover:text-[#264653] transition-colors"
+                    @click="toggleMap(index)">
                     <Icon name="mdi:map-marker" class="w-5 h-5 mr-1" />
                     <span class="text-sm">{{ item.location }}</span>
                   </div>
@@ -34,42 +36,25 @@
                 <p class="text-[#4A4A4A] text-base mb-4">{{ item.subtitle }}</p>
 
                 <!-- Map Section -->
-                <div 
-                  v-if="activeMap === index" 
-                  class="w-full h-48 mb-4 rounded-lg overflow-hidden transition-all duration-300"
-                >
-                  <iframe 
-                    :src="item.mapUrl" 
-                    class="w-full h-full border-0" 
-                    allowfullscreen 
-                    loading="lazy" 
-                    referrerpolicy="no-referrer-when-downgrade"
-                  ></iframe>
+                <div v-if="activeMap === index"
+                  class="w-full h-48 mb-4 rounded-lg overflow-hidden transition-all duration-300">
+                  <iframe :src="item.mapUrl" class="w-full h-full border-0" allowfullscreen loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
 
                 <!-- Skills Section -->
                 <div class="flex flex-wrap gap-3 mb-6">
-                  <span 
-                    v-for="(skill, skillIndex) in item.skills" 
-                    :key="skillIndex" 
-                    class="px-4 py-2 text-sm font-medium bg-[#F5F2EB] text-[#2A9D8F] rounded-lg flex items-center hover:bg-[#2A9D8F] hover:text-white transition-colors duration-300"
-                  >
-                    <img 
-                      :src="getSkillIcon(skill)" 
-                      class="w-5 h-5 mr-2" 
-                      :alt="skill"
-                    >
+                  <span v-for="(skill, skillIndex) in item.skills" :key="skillIndex"
+                    class="px-4 py-2 text-sm font-medium bg-[#F5F2EB] text-[#2A9D8F] rounded-lg flex items-center hover:bg-[#2A9D8F] hover:text-white transition-colors duration-300">
+                    <img :src="getSkillIcon(skill)" class="w-5 h-5 mr-2" :alt="skill">
                     {{ skill }}
                   </span>
                 </div>
 
                 <!-- Achievements Section -->
                 <ul class="space-y-3">
-                  <li 
-                    v-for="(achievement, achievementIndex) in item.achievements" 
-                    :key="achievementIndex"
-                    class="text-base text-[#4A4A4A] flex items-start"
-                  >
+                  <li v-for="(achievement, achievementIndex) in item.achievements" :key="achievementIndex"
+                    class="text-base text-[#4A4A4A] flex items-start">
                     <span class="mr-3 text-[#2A9D8F] text-xl">•</span>
                     {{ achievement }}
                   </li>
@@ -95,8 +80,9 @@ const toggleMap = (index) => {
 }
 const educationTimeline = [
   {
-    year: "2023",
-    duration: "Present",
+    startDate: "2023",
+    endDate: "2025",
+    duration: "2 years",
     title: "Master's Degree in AI Engineering",
     subtitle: "Expert in Artificial Intelligence",
     location: "EPSI Lille",
@@ -109,7 +95,8 @@ const educationTimeline = [
     ]
   },
   {
-    year: "2022",
+    startDate: "2022",
+    endDate: "2023",
     duration: "1 year",
     title: "Bachelor's Degree in Application Development",
     subtitle: "Application Designer and Developer",
@@ -123,7 +110,8 @@ const educationTimeline = [
     ]
   },
   {
-    year: "2020",
+    startDate: "2020",
+    endDate: "2022",
     duration: "2 years",
     title: "BTS SIO SLAM",
     subtitle: "IT Services for Organizations",
@@ -186,6 +174,22 @@ onMounted(() => {
   opacity: 0;
   transform: translateY(30px);
   transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.text-3xl {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+}
+
+@media (max-width: 640px) {
+  .text-3xl {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+
+  .flex.items-center.gap-2 {
+    gap: 0.5rem;
+  }
 }
 
 .reveal-item.visible {

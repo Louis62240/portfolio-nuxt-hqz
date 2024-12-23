@@ -20,54 +20,57 @@
           <div class="space-y-4 md:space-y-6">
             <div class="text-xs sm:text-sm uppercase tracking-[0.4em] text-[#298B6E] slide-in-left"
               style="--animation-delay: 0.5s">
-              Portfolio Digital
+              Digital Portfolio
             </div>
 
             <h1 class="text-4xl sm:text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-bold tracking-tight leading-tight">
               <span class="block magical-text slide-in-left" style="--animation-delay: 0.7s">Hanquiez Louis</span>
-              <span class="block mt-2 sm:mt-3 gradient-animate slide-in-left" style="--animation-delay: 0.9s">Développeur</span>
+              <span class="block mt-2 sm:mt-3 gradient-animate slide-in-left"
+                style="--animation-delay: 0.9s">Developer</span>
               <span class="block mt-2 sm:mt-3 neon-text slide-in-left" style="--animation-delay: 1.1s">Full-Stack</span>
             </h1>
           </div>
 
           <p class="text-[#298B6E] text-lg sm:text-xl md:text-2xl leading-relaxed max-w-2xl prose-elegant fade-in-up"
             style="--animation-delay: 1.3s">
-            Spécialisé dans la création d'expériences web innovantes et immersives.
-            Je transforme vos idées en réalités numériques captivantes.
+            Specialized in creating innovative and immersive web experiences.
+            I transform your ideas into captivating digital realities.
           </p>
 
           <div class="flex flex-wrap gap-4 sm:gap-6 md:gap-8">
-            <button class="magical-button group scale-in" style="--animation-delay: 1.5s">
+            <button class="magical-button group scale-in" style="--animation-delay: 1.5s"       @click="$emit('scrollToProjects')"
+            >
               <span class="relative z-10 text-[#F5E6D3] text-base sm:text-lg md:text-xl font-medium">
-                Voir mes projets
+                View Projects
               </span>
               <div class="magical-button-bg"></div>
             </button>
 
-            <button class="glass-button scale-in text-base sm:text-lg md:text-xl font-medium" 
+            <button class="glass-button scale-in text-base sm:text-lg md:text-xl font-medium"
               style="--animation-delay: 1.7s">
-              En savoir plus
+              Learn More
             </button>
           </div>
         </div>
 
-        <div class="relative aspect-square hidden lg:block fade-in mr-4 xl:mr-12" 
-          style="--animation-delay: 1.9s">
-          <DesignComponent/>
+        <div class="relative aspect-square hidden lg:block fade-in mr-4 xl:mr-12" style="--animation-delay: 1.9s">
+          <DesignComponent />
         </div>
       </div>
     </div>
 
-    <div class="scroll-indicator fade-in" style="--animation-delay: 2.7s">
-      <div class="scroll-text">Découvrir</div>
+    <div class="scroll-indicator fade-in" ref="scrollIndicator" style="--animation-delay: 2.7s">
+      <div class="scroll-text">Discover</div>
       <div class="scroll-line"></div>
     </div>
   </main>
 </template>
-
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import DesignComponent from '@/components/DesignComponent.vue';
+defineEmits(['scrollToProjects']);
+
+const scrollIndicator = ref(null)
 
 onMounted(() => {
   // Réinitialiser les animations lors du rechargement de la page
@@ -76,6 +79,35 @@ onMounted(() => {
   setTimeout(() => {
     document.documentElement.style.scrollBehavior = 'smooth'
   }, 100)
+
+  // Ajouter le gestionnaire d'événements de défilement
+  window.addEventListener('scroll', handleScroll)
+})
+
+const handleScroll = () => {
+  if (!scrollIndicator.value) return
+
+  // Faire disparaître progressivement l'indicateur en fonction du défilement
+  const scrollPosition = window.scrollY
+  const fadeOutStart = 100 // Commencer à disparaître après 100px de scroll
+  const fadeOutEnd = 300 // Complètement disparu après 300px de scroll
+  
+  if (scrollPosition > fadeOutStart) {
+    const opacity = Math.max(0, 1 - (scrollPosition - fadeOutStart) / (fadeOutEnd - fadeOutStart))
+    scrollIndicator.value.style.opacity = opacity
+    
+    if (opacity === 0) {
+      scrollIndicator.value.style.visibility = 'hidden'
+    }
+  } else {
+    scrollIndicator.value.style.opacity = 1
+    scrollIndicator.value.style.visibility = 'visible'
+  }
+}
+
+// Nettoyage du gestionnaire d'événements lors de la destruction du composant
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll)
 })
 </script>
 
@@ -220,7 +252,7 @@ onMounted(() => {
   filter: blur(5px);
   animation: pulse 4s ease-in-out infinite;
 }
-/* Scroll indicator */
+
 .scroll-indicator {
   position: fixed;
   bottom: 2rem;
@@ -230,36 +262,65 @@ onMounted(() => {
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
-  opacity: 0; /* Masque l'élément initialement */
-  animation: fadeIn 1s forwards var(--animation-delay); /* Animation d'apparition */
+  opacity: 0;
+  animation: fadeIn 1s forwards var(--animation-delay);
+  transition: opacity 0.3s ease-out, visibility 0.3s ease-out; /* Ajout de la transition */
 }
 
 .scroll-text {
   color: #298B6E;
-  font-size: 1rem; /* Augmente la taille du texte pour plus de visibilité */
-  font-weight: bold; /* Met en gras le texte pour plus d'impact */
-  animation: bounce 2s infinite; /* Animation de rebond */
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4); /* Ombre plus prononcée pour un effet de profondeur */
-  letter-spacing: 0.05em; /* Espacement des lettres pour une meilleure lisibilité */
+  font-size: 1rem;
+  /* Augmente la taille du texte pour plus de visibilité */
+  font-weight: bold;
+  /* Met en gras le texte pour plus d'impact */
+  animation: bounce 2s infinite;
+  /* Animation de rebond */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+  /* Ombre plus prononcée pour un effet de profondeur */
+  letter-spacing: 0.05em;
+  /* Espacement des lettres pour une meilleure lisibilité */
 }
 
 .scroll-line {
-  width: 4px; /* Augmente la largeur de la ligne pour plus de visibilité */
-  height: 70px; /* Augmente la hauteur de la ligne */
-  background: linear-gradient(to bottom, #006A4E, rgba(0, 106, 78, 0)); /* Amélioration du dégradé */
+  width: 4px;
+  /* Augmente la largeur de la ligne pour plus de visibilité */
+  height: 70px;
+  /* Augmente la hauteur de la ligne */
+  background: linear-gradient(to bottom, #006A4E, rgba(0, 106, 78, 0));
+  /* Amélioration du dégradé */
   border-radius: 2px;
-  animation: glow 2s ease-in-out infinite; /* Animation de lueur */
-  box-shadow: 0 0 15px rgba(0, 106, 78, 0.6), 0 0 30px rgba(0, 106, 78, 0.3); /* Ombre portée améliorée pour un effet lumineux */
+  animation: glow 2s ease-in-out infinite;
+  /* Animation de lueur */
+  box-shadow: 0 0 15px rgba(0, 106, 78, 0.6), 0 0 30px rgba(0, 106, 78, 0.3);
+  /* Ombre portée améliorée pour un effet lumineux */
 }
 
 @keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-15px); } /* Augmente le rebond */
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-15px);
+  }
+
+  /* Augmente le rebond */
 }
 
 @keyframes glow {
-  0%, 100% { background: rgba(0, 106, 78, 0.5); }
-  50% { background: rgba(0, 106, 78, 1); } /* Intensifie la lueur */
+
+  0%,
+  100% {
+    background: rgba(0, 106, 78, 0.5);
+  }
+
+  50% {
+    background: rgba(0, 106, 78, 1);
+  }
+
+  /* Intensifie la lueur */
 }
 
 
@@ -510,6 +571,7 @@ onMounted(() => {
 }
 
 @media (max-width: 1536px) {
+
   .magical-text,
   .gradient-animate,
   .neon-text {
@@ -518,6 +580,7 @@ onMounted(() => {
 }
 
 @media (max-width: 1280px) {
+
   .magical-button,
   .glass-button {
     padding: 0.875rem 1.75rem;
@@ -528,7 +591,7 @@ onMounted(() => {
   .grid {
     gap: 2rem;
   }
-  
+
   .central-sphere {
     width: 150px;
     height: 150px;
@@ -536,6 +599,7 @@ onMounted(() => {
 }
 
 @media (max-width: 768px) {
+
   .magical-text,
   .gradient-animate,
   .neon-text {
@@ -559,6 +623,7 @@ onMounted(() => {
 }
 
 @media (max-width: 640px) {
+
   .magical-text,
   .gradient-animate,
   .neon-text {
@@ -601,6 +666,7 @@ onMounted(() => {
 
 /* Optimisations pour les appareils tactiles */
 @media (hover: none) {
+
   .magical-button:hover,
   .glass-button:hover {
     transform: none;
