@@ -84,20 +84,24 @@
 </template>
 <script setup>
 const projects = [
-  {
-    name: "Spotify Music Recommendation",
-    description: "Personalized music recommendation application using clustering and Spotify API to analyze user preferences",
-    category: "AI Application", 
-    categoryColor: "bg-purple-100 text-purple-600",
+{
+    name: "E-Commerce User Clustering Analysis",
+    description: "Advanced customer segmentation system using clustering algorithms to identify user patterns and optimize marketing strategies in e-commerce platforms",
+    category: "Data Analytics", 
+    categoryColor: "bg-blue-100 text-blue-600",
     date: "2024",
-    technologies: ['Python', 'FastAPI', 'Vue.js'],
-    image: "/images/amazing.png",
+    technologies: ['Python', 'Scikit-learn', 'PostgreSQL', 'Tableau'],
+    image: "/images/amazing.png", 
     features: [
-      "Music preferences clustering",
-      "Spotify API integration",
-      "Personalized recommendations", 
-      "Music taste analysis",
-      "Interactive user interface"
+      "Customer behavioral segmentation",
+      "RFM Analysis (Recency, Frequency, Monetary)",
+      "Purchase pattern profiling",
+      "Shopping trend prediction",
+      "Analytics dashboards",
+      "Segment-based personalized recommendations",
+      "High-value customer identification",
+      "Shopping cart analysis",
+      "Customer lifetime value prediction"
     ]
   },
   {
