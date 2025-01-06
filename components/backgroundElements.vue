@@ -46,10 +46,6 @@
               <div class="magical-button-bg"></div>
             </button>
 
-            <button class="glass-button scale-in text-base sm:text-lg md:text-xl font-medium"
-              style="--animation-delay: 1.7s">
-              Learn More
-            </button>
           </div>
         </div>
 

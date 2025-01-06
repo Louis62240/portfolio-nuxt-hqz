@@ -90,7 +90,7 @@ const projects = [
     category: "Data Analytics", 
     categoryColor: "bg-blue-100 text-blue-600",
     date: "2024",
-    technologies: ['Python', 'Scikit-learn', 'PostgreSQL', 'Tableau'],
+    technologies: ['Python', 'Scikit-learn', 'PostgreSQL'],
     image: "/images/amazing.png", 
     features: [
       "Customer behavioral segmentation",
@@ -139,15 +139,17 @@ const projects = [
     ]
   }
 ]
-
 const getTechIcon = (tech) => {
   const icons = {
     'Vue.js': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg',
     'React': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg',
     'Python': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg',
-    'FastAPI': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg', 
+    'FastAPI': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg',
     'Node.js': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg',
-    'Parse Server': 'https://parseplatform.org/img/logo.svg'
+    'Parse Server': 'https://parseplatform.org/img/logo.svg',
+    'Scikit-learn': 'https://upload.wikimedia.org/wikipedia/commons/0/05/Scikit_learn_logo_small.svg',
+    'PostgreSQL': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg',
+    'Tableau': 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tableau/tableau-original.svg'
   }
   return icons[tech]
 }
