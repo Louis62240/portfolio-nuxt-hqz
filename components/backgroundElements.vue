@@ -1,6 +1,6 @@
 <template>
   <main class="min-h-screen bg-[#F5E6D3] text-[#004D3D] overflow-hidden relative w-full">
-    <div class="noise-overlay"></div>
+    <!-- <div class="noise-overlay"></div> -->
 
     <div class="floating-orbs">
       <div v-for="n in 5" :key="n" class="orb fade-in" :style="{
@@ -145,6 +145,7 @@ onUnmounted(() => {
     linear-gradient(-45deg, #006A4E08 25%, transparent 25%);
   background-size: 60px 60px;
   animation: pattern-shift 30s linear infinite;
+  max-width: 100%;
 }
 
 /* Text effects */

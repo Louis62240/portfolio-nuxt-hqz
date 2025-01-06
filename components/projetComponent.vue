@@ -1,6 +1,6 @@
 <template>
   <section class="bg-[#F5E6D3] text-[#004D3D] w-full px-4">
-    <div class="noise-overlay"></div>
+    <!-- <div class="noise-overlay"></div> -->
     <div class="max-w-8xl mx-auto relative z-10 h-full flex flex-col">
       <!-- Section Header -->
       <div class="text-center mb-8">

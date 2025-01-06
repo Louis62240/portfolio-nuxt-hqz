@@ -1,12 +1,12 @@
 <template>
-  <div>
-    <section class="flex flex-col items-center min-h-screen bg-[#FEFAE0]" ref="home">
+  <div class="overflow-x-hidden w-full">
+    <section class="flex flex-col items-center min-h-screen bg-[#F5E6D3] w-full" ref="home">
       <BackgroundElements @scrollToProjects="scrollToSection('projects')" />
       <ProjetComponent ref="projectsSection" id="projects" />
       <ProfilComponent/>
       <EducationPath/>
     </section>
-   </div>
+  </div>
 </template>
 <script setup>
 import { ref, watch } from 'vue';
@@ -26,3 +26,12 @@ const scrollToSection = (sectionId) => {
 };
 
 </script>
+
+<style>
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+  position: relative;
+  margin: 0;
+  padding: 0;
+}</style>

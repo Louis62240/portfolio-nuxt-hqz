@@ -1,61 +1,61 @@
 <template>
-  <section class="py-12 bg-[#F5E6D3] text-[#004D3D] w-full">
-    <div class="max-w-6xl mx-auto px-4">
-      <div class="mb-12 text-center reveal-item">
-        <h2 class="text-4xl font-bold text-[#004D3D] mb-3">{{ title }}</h2>
-        <p class="text-[#4A4A4A] text-lg">{{ description }}</p>
+  <section class="py-8 sm:py-12 bg-[#F5E6D3] text-[#004D3D] w-full">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="mb-8 sm:mb-12 text-center reveal-item">
+        <h2 class="text-3xl sm:text-4xl font-bold text-[#004D3D] mb-3">{{ title }}</h2>
+        <p class="text-[#4A4A4A] text-base sm:text-lg">{{ description }}</p>
       </div>
 
-      <div class="space-y-8">
+      <div class="space-y-6 sm:space-y-8">
         <div v-for="(item, index) in educationTimeline" :key="index"
           class="reveal-item hover:transform hover:scale-[1.02] transition-all duration-300">
           <div
-            class="bg-white rounded-2xl shadow-custom hover:shadow-custom-hover transition-all duration-300 p-8 border-l-8 border-[#2A9D8F]">
-            <div class="flex flex-wrap items-start gap-6">
-              <div class="shrink-0">
+            class="bg-white rounded-lg sm:rounded-2xl shadow-custom hover:shadow-custom-hover transition-all duration-300 p-4 sm:p-8 border-l-4 sm:border-l-8 border-[#2A9D8F]">
+            <div class="flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-6">
+              <div class="w-full sm:w-auto">
                 <div class="flex flex-col space-y-1">
-                  <div class="text-3xl font-bold text-[#2A9D8F] flex items-center gap-2">
+                  <div class="text-2xl sm:text-3xl font-bold text-[#2A9D8F] flex items-center gap-1 sm:gap-2 flex-wrap">
                     <span>{{ item.startDate }}</span>
-                    <span class="text-lg">-</span>
+                    <span class="text-base sm:text-lg">-</span>
                     <span>{{ item.endDate }}</span>
                   </div>
-                  <p class="text-sm text-[#4A4A4A] mt-1">{{ item.duration }}</p>
+                  <p class="text-xs sm:text-sm text-[#4A4A4A] mt-1">{{ item.duration }}</p>
                 </div>
               </div>
 
-              <div class="flex-1 min-w-[280px]">
-                <div class="flex items-start justify-between mb-2">
-                  <h3 class="text-2xl font-semibold text-[#264653]">{{ item.title }}</h3>
-                  <div class="flex items-center text-[#2A9D8F] cursor-pointer hover:text-[#264653] transition-colors"
+              <div class="flex-1 min-w-0">
+                <div class="flex flex-col sm:flex-row sm:items-start justify-between mb-2 gap-2">
+                  <h3 class="text-xl sm:text-2xl font-semibold text-[#264653]">{{ item.title }}</h3>
+                  <div class="flex items-center text-[#2A9D8F] cursor-pointer hover:text-[#264653] transition-colors whitespace-nowrap"
                     @click="toggleMap(index)">
-                    <Icon name="mdi:map-marker" class="w-5 h-5 mr-1" />
-                    <span class="text-sm">{{ item.location }}</span>
+                    <Icon name="mdi:map-marker" class="w-4 h-4 sm:w-5 sm:h-5 mr-1" />
+                    <span class="text-xs sm:text-sm">{{ item.location }}</span>
                   </div>
                 </div>
 
-                <p class="text-[#4A4A4A] text-base mb-4">{{ item.subtitle }}</p>
+                <p class="text-sm sm:text-base text-[#4A4A4A] mb-4">{{ item.subtitle }}</p>
 
                 <!-- Map Section -->
                 <div v-if="activeMap === index"
-                  class="w-full h-48 mb-4 rounded-lg overflow-hidden transition-all duration-300">
+                  class="w-full h-40 sm:h-48 mb-4 rounded-lg overflow-hidden transition-all duration-300">
                   <iframe :src="item.mapUrl" class="w-full h-full border-0" allowfullscreen loading="lazy"
                     referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
 
                 <!-- Skills Section -->
-                <div class="flex flex-wrap gap-3 mb-6">
+                <div class="flex flex-wrap gap-2 sm:gap-3 mb-4 sm:mb-6">
                   <span v-for="(skill, skillIndex) in item.skills" :key="skillIndex"
-                    class="px-4 py-2 text-sm font-medium bg-[#F5F2EB] text-[#2A9D8F] rounded-lg flex items-center hover:bg-[#2A9D8F] hover:text-white transition-colors duration-300">
-                    <img :src="getSkillIcon(skill)" class="w-5 h-5 mr-2" :alt="skill">
+                    class="px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-medium bg-[#F5F2EB] text-[#2A9D8F] rounded-lg flex items-center hover:bg-[#2A9D8F] hover:text-white transition-colors duration-300">
+                    <img :src="getSkillIcon(skill)" class="w-4 h-4 sm:w-5 sm:h-5 mr-1.5 sm:mr-2" :alt="skill">
                     {{ skill }}
                   </span>
                 </div>
 
                 <!-- Achievements Section -->
-                <ul class="space-y-3">
+                <ul class="space-y-2 sm:space-y-3">
                   <li v-for="(achievement, achievementIndex) in item.achievements" :key="achievementIndex"
-                    class="text-base text-[#4A4A4A] flex items-start">
-                    <span class="mr-3 text-[#2A9D8F] text-xl">•</span>
+                    class="text-sm sm:text-base text-[#4A4A4A] flex items-start">
+                    <span class="mr-2 sm:mr-3 text-[#2A9D8F] text-lg sm:text-xl">•</span>
                     {{ achievement }}
                   </li>
                 </ul>
@@ -67,6 +67,7 @@
     </div>
   </section>
 </template>
+
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
@@ -172,24 +173,8 @@ onMounted(() => {
 <style scoped>
 .reveal-item {
   opacity: 0;
-  transform: translateY(30px);
-  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.text-3xl {
-  font-size: 1.875rem;
-  line-height: 2.25rem;
-}
-
-@media (max-width: 640px) {
-  .text-3xl {
-    font-size: 1.5rem;
-    line-height: 2rem;
-  }
-
-  .flex.items-center.gap-2 {
-    gap: 0.5rem;
-  }
+  transform: translateY(20px);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .reveal-item.visible {
@@ -207,21 +192,6 @@ onMounted(() => {
     0 4px 6px -2px rgba(42, 157, 143, 0.1);
 }
 
-@media (max-width: 640px) {
-  .education-timeline {
-    padding: 0;
-  }
-
-  div[class*="space-y-8"] {
-    margin: 0 -1rem;
-  }
-
-  div[class*="rounded-2xl"] {
-    border-radius: 0;
-    padding: 1.5rem;
-  }
-}
-
 iframe {
   transform-origin: top;
   animation: mapFadeIn 0.3s ease-out;
@@ -232,10 +202,15 @@ iframe {
     opacity: 0;
     transform: scaleY(0);
   }
-
   to {
     opacity: 1;
     transform: scaleY(1);
+  }
+}
+
+@media (max-width: 640px) {
+  .education-timeline {
+    padding: 0;
   }
 }
 </style>
