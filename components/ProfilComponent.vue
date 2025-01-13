@@ -1,7 +1,7 @@
 <template>
-  <div class="w-full bg-[#F5E6D3] text-[#004D3D]">
+  <div class="w-full bg-amber-50 text-[#004D3D]">
     <!-- Section Professionnelle -->
-    <section class="w-full py-16 border-b border-[#2A9D8F]/20">
+    <section class="w-full border-b border-[#2A9D8F]/20 reveal-item " >
       <div class="text-center mb-8">
         <h2 class="text-4xl md:text-5xl font-bold tracking-tight text-[#004D3D] magical-text">
           About me
@@ -145,9 +145,41 @@ const passions = [
     description: 'Avid gamer specializing in solo adventures and multiplayer grinding games. Love immersing myself in story-driven single-player experiences while also enjoying the grind and progression of farming-focused multiplayer games.'
   }
 ];
+
+onMounted(() => {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible')
+      }
+    })
+  }, {
+    threshold: 0.1
+  })
+
+  document.querySelectorAll('.reveal-item').forEach(item => {
+    observer.observe(item)
+  })
+
+  onUnmounted(() => {
+    observer.disconnect()
+  })
+})
+
 </script>
 
 <style scoped>
+.reveal-item {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reveal-item.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .tech-badge {
   @apply flex items-center gap-2 px-4 py-2 bg-white rounded-lg border border-[#2A9D8F]/20 transition-all duration-300 text-sm font-medium text-[#298B6E] hover:border-[#2A9D8F]/40 hover:shadow-sm;
 }

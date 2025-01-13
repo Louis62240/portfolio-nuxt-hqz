@@ -1,5 +1,5 @@
 <template>
-  <main class="min-h-screen bg-[#F5E6D3] text-[#004D3D] overflow-hidden relative w-full">
+  <main class="min-h-screen bg-amber-50 text-[#004D3D] overflow-hidden relative w-full">
     <!-- <div class="noise-overlay"></div> -->
 
     <div class="floating-orbs">
@@ -49,7 +49,7 @@
           </div>
         </div>
 
-        <div class="relative aspect-square hidden lg:block fade-in mr-4 xl:mr-12" style="--animation-delay: 1.9s">
+        <div class="relative aspect-square hidden lg:block fade-in mr-4 xl:mr-12" style="--animation-delay: 1.4s">
           <DesignComponent />
         </div>
       </div>

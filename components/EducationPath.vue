@@ -1,5 +1,5 @@
 <template>
-  <section class="py-8 sm:py-12 bg-[#F5E6D3] text-[#004D3D] w-full">
+  <section class="py-8 sm:py-12 bg-amber-50 text-[#004D3D] w-full">
     <div class="max-w-6xl mx-auto px-4 sm:px-6">
       <div class="mb-8 sm:mb-12 text-center reveal-item">
         <h2 class="text-3xl sm:text-4xl font-bold text-[#004D3D] mb-3">{{ title }}</h2>
