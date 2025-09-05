@@ -77,9 +77,6 @@ docker run -p 3000:3000 portfolio-nuxt-hqz
 ## Customization
 You can edit the content in the components and pages to personalize your portfolio.
 
-## CI/CD
-A basic CI/CD pipeline is included using GitHub Actions. The workflow automatically installs dependencies, builds the project, and can deploy it when changes are pushed to the repository. You can find the configuration in `github/workflows/deploy.yml`.
-
 ## License
 This project is open source and available under the MIT License.
 
