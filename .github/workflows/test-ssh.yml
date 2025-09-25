@@ -24,9 +24,17 @@ jobs:
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
             cd /home/deployer/portfolio
 
+            # Mettre à jour le code
+            git reset --hard
+            git clean -fd
             git pull origin master
 
-            # Rebuild et relancer les containers Docker
-            docker compose down
-            docker compose up -d --build
+            # Build l'image Docker
+            docker build -t portfolio-nuxt .
+
+            # Arrêter et supprimer l'ancien container s'il existe
+            docker rm -f portfolio-nuxt-container || true
+
+            # Lancer un nouveau container
+            docker run -d --name portfolio-nuxt-container -p 3000:3000 portfolio-nuxt
           EOF
