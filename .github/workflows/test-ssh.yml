@@ -22,9 +22,9 @@ jobs:
       - name: Deploy to server
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
-            cd /home/deployer/mon-projet  # remplace par le chemin de ton projet sur le serveur
+            cd /home/deployer/portfolio
 
-            git pull origin main
+            git pull origin master
 
             # Rebuild et relancer les containers Docker
             docker compose down
