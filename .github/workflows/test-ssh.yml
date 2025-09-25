@@ -1,10 +1,12 @@
-name: Test SSH Connection
+name: Deploy Nuxt App
 
 on:
-  workflow_dispatch:  # permet de lancer manuellement le workflow depuis GitHub
+  push:
+    branches:
+      - master   
 
 jobs:
-  ssh-test:
+  deploy:
     runs-on: ubuntu-latest
     environment: prod
 
@@ -17,6 +19,14 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Test SSH connection
+      - name: Deploy to server
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "echo 'SSH connection successful!'"
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
+            cd /home/deployer/mon-projet  # remplace par le chemin de ton projet sur le serveur
+
+            git pull origin main
+
+            # Rebuild et relancer les containers Docker
+            docker compose down
+            docker compose up -d --build
+          EOF
