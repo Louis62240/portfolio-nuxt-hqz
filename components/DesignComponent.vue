@@ -1,14 +1,11 @@
 <template>
   <div class="skills-section">
-    <h2 class="skills-title">Technical Stack</h2>
+    <h2 class="skills-title">Technicall Stack</h2>
     <div class="skills-grid">
-      <div v-for="(skill, index) in skills" 
-           :key="skill.name"
-           class="skill-item"
-           :style="{ 
-             '--accent-color': skill.color,
-             '--index': index 
-           }">
+      <div v-for="(skill, index) in skills" :key="skill.name" class="skill-item" :style="{
+        '--accent-color': skill.color,
+        '--index': index
+      }">
         <div class="skill-icon">
           <img :src="skill.icon" :alt="skill.name">
         </div>
@@ -131,6 +128,7 @@ const skills = [
     opacity: 0;
     transform: scale(0.8) translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: scale(1) translateY(0);
